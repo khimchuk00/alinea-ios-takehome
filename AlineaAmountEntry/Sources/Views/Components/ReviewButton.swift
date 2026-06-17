@@ -2,18 +2,15 @@ import SwiftUI
 
 /// The white "Review" pill shown once an amount is entered. Its border is a
 /// continuously rotating brand gradient (comment #2), sitting on a soft
-/// multicolor glow.
+/// multicolor glow. The rotation honors Reduce Motion and stops when the button
+/// leaves the screen.
+///
+/// Intentionally non-functional per the brief; `action` defaults to a no-op.
 struct ReviewButton: View {
     var action: () -> Void = {}
 
-    private let height: CGFloat = 50
-    private let ringWidth: CGFloat = 2.5
-
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var rotation: Double = 0
-
-    private var ringColors: [Color] {
-        [AppColor.brand, AppColor.brandViolet, AppColor.brandBlue, AppColor.brandViolet, AppColor.brand]
-    }
 
     var body: some View {
         Button(action: action) {
@@ -23,29 +20,25 @@ struct ReviewButton: View {
                     .fill(.white)
                     .shadow(color: .white.opacity(0.12), radius: 5)
                 Capsule()
-                    .strokeBorder(
-                        AngularGradient(
-                            gradient: Gradient(colors: ringColors),
-                            center: .center,
-                            startAngle: .degrees(rotation),
-                            endAngle: .degrees(rotation + 360)
-                        ),
-                        lineWidth: ringWidth
-                    )
+                    .strokeBorder(AppGradient.brandRing(rotation: rotation), lineWidth: Metrics.Size.reviewRing)
                 Text("Review")
                     .font(AppFont.review())
                     .tracking(-0.64)
                     .foregroundStyle(AppColor.reviewText)
             }
-            .frame(height: height)
+            .frame(height: Metrics.Size.reviewHeight)
             .contentShape(Capsule())
         }
         .buttonStyle(PressableStyle(scale: 0.98))
-        .accessibilityIdentifier("reviewButton")
-        .onAppear {
-            withAnimation(.linear(duration: 3.5).repeatForever(autoreverses: false)) {
-                rotation = 360
-            }
+        .accessibilityIdentifier(A11y.reviewButton)
+        .onAppear(perform: startSpin)
+        .onDisappear { rotation = 0 }
+    }
+
+    private func startSpin() {
+        guard !reduceMotion else { return }
+        withAnimation(.linear(duration: Motion.ringSpinDuration).repeatForever(autoreverses: false)) {
+            rotation = 360
         }
     }
 
@@ -53,19 +46,8 @@ struct ReviewButton: View {
     /// "orb" gradient artwork).
     private var glow: some View {
         Capsule()
-            .fill(
-                LinearGradient(
-                    colors: [
-                        AppColor.brandBlue,
-                        AppColor.brandViolet,
-                        AppColor.brand,
-                        AppColor.accent.opacity(0.7)
-                    ],
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
-            )
-            .frame(height: height + 10)
+            .fill(AppGradient.reviewGlow)
+            .frame(height: Metrics.Size.reviewHeight + 10)
             .blur(radius: 20)
             .opacity(0.8)
             .padding(.horizontal, 8)

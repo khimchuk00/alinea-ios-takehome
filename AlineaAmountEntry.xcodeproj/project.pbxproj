@@ -11,10 +11,12 @@
 		021445348B50DC7F8832DB9A /* DemoRecordingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2677EB975ED4576568D8F80D /* DemoRecordingTests.swift */; };
 		1D10A59732BAE8E091C77B98 /* AlineaAmountEntryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1641394103B1533F2F37AC /* AlineaAmountEntryApp.swift */; };
 		2198B83057E5ADC72805F026 /* AmountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88ACFE5BD01BE03C51EDAAD8 /* AmountFormatter.swift */; };
+		22A1E5D49F5DE018958CD3F9 /* PressableStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CB914BDFCF36747FBE4F8 /* PressableStyle.swift */; };
 		3267E4192183BE1B2A66F407 /* InstrumentSansSemiCondensed-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 710C75D1E9F26804A034230C /* InstrumentSansSemiCondensed-Medium.otf */; };
 		33FCB6698E9A474B63E7E870 /* QuickAmountChipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F288213E67B8C3AFE1FDAE /* QuickAmountChipsView.swift */; };
 		3E19ECAE2B4BF93BFA319F4E /* AmountEntryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5F4DDE7163573DAC1E8B38 /* AmountEntryViewModelTests.swift */; };
 		42C265CA83FB4FAD308C3C91 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9FE21AC61FA98A9ECB0FD3 /* StatusBarView.swift */; };
+		437D8E0A47441A1FEA0EB6B4 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354FAC6064C156DA4F1BD67A /* Metrics.swift */; };
 		446C1D44FCABD430822AC61F /* AutomatedBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35F583DD3B9EA28F25A954 /* AutomatedBadge.swift */; };
 		4BC76B9F19943BD437AA2182 /* ReviewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28992372CB6B4F7A9B906DF7 /* ReviewButton.swift */; };
 		4CF305FAA687BC8A492D4D64 /* GTFlexa-CnMd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 868EBBE26456F7FB54093AF1 /* GTFlexa-CnMd.otf */; };
@@ -24,8 +26,10 @@
 		72BD1E4D6AA1DCDA2AC45074 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4040EA5D94D45EAE408E959D /* Theme.swift */; };
 		7697EA9D1316CB40C2BA1D3B /* BlinkingCaret.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AF24473DFCB25560A24BC3 /* BlinkingCaret.swift */; };
 		7D3DFF8A3C3DAA05EF3B5885 /* HomeIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F534B04A4CDEAB07236E36 /* HomeIndicatorView.swift */; };
+		93E360772E79A84CE72193AA /* A11y.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E681D6AA5AB1E8C073C5CED /* A11y.swift */; };
 		9D864E694B27E5AB2FD2D752 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A30817AD5185B46B6D0536 /* Haptics.swift */; };
 		D11B2FCAA6E5E83A05EBBCF0 /* AmountDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B0CF8EE4BF5D1099303F01 /* AmountDisplayView.swift */; };
+		D1506D28500FE61992E234DF /* A11y.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E681D6AA5AB1E8C073C5CED /* A11y.swift */; };
 		D81BA141A2AC02D18302C67E /* TopGlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FA9C200A49852184BC3117 /* TopGlow.swift */; };
 		E08C44279C7454FB1FEDF0DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 184F94171EF8C363687FF887 /* Assets.xcassets */; };
 		E339A5EC4EB204D37A464CC5 /* AmountEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F720B1DAF8255CE3E78A690 /* AmountEntryViewModel.swift */; };
@@ -54,8 +58,10 @@
 		0D45F0DA3D29BD088E729687 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		184F94171EF8C363687FF887 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A35F583DD3B9EA28F25A954 /* AutomatedBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedBadge.swift; sourceTree = "<group>"; };
+		1E681D6AA5AB1E8C073C5CED /* A11y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A11y.swift; sourceTree = "<group>"; };
 		2677EB975ED4576568D8F80D /* DemoRecordingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoRecordingTests.swift; sourceTree = "<group>"; };
 		28992372CB6B4F7A9B906DF7 /* ReviewButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewButton.swift; sourceTree = "<group>"; };
+		354FAC6064C156DA4F1BD67A /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		3D1641394103B1533F2F37AC /* AlineaAmountEntryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlineaAmountEntryApp.swift; sourceTree = "<group>"; };
 		402A49CCAFE3DADD9E734250 /* AlineaAmountEntryTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AlineaAmountEntryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4040EA5D94D45EAE408E959D /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -73,6 +79,7 @@
 		CC5F4DDE7163573DAC1E8B38 /* AmountEntryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountEntryViewModelTests.swift; sourceTree = "<group>"; };
 		D4000B8E74EB4CA1B82936C3 /* AlineaAmountEntryUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AlineaAmountEntryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F534B04A4CDEAB07236E36 /* HomeIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeIndicatorView.swift; sourceTree = "<group>"; };
+		E77CB914BDFCF36747FBE4F8 /* PressableStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PressableStyle.swift; sourceTree = "<group>"; };
 		F3B0CF8EE4BF5D1099303F01 /* AmountDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountDisplayView.swift; sourceTree = "<group>"; };
 		F57C46C28FD5692871F58AF0 /* AmountEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountEntryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,6 +164,7 @@
 		8F88805CBF718FF3F5322A77 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				1E681D6AA5AB1E8C073C5CED /* A11y.swift */,
 				88ACFE5BD01BE03C51EDAAD8 /* AmountFormatter.swift */,
 				C2A30817AD5185B46B6D0536 /* Haptics.swift */,
 			);
@@ -172,6 +180,7 @@
 				C8AF24473DFCB25560A24BC3 /* BlinkingCaret.swift */,
 				D7F534B04A4CDEAB07236E36 /* HomeIndicatorView.swift */,
 				40852647918F2BFA223B5E46 /* KeypadView.swift */,
+				E77CB914BDFCF36747FBE4F8 /* PressableStyle.swift */,
 				A1F288213E67B8C3AFE1FDAE /* QuickAmountChipsView.swift */,
 				28992372CB6B4F7A9B906DF7 /* ReviewButton.swift */,
 				8D9FE21AC61FA98A9ECB0FD3 /* StatusBarView.swift */,
@@ -192,6 +201,7 @@
 		DA1CE7C25B649B779B68827D /* Theme */ = {
 			isa = PBXGroup;
 			children = (
+				354FAC6064C156DA4F1BD67A /* Metrics.swift */,
 				4040EA5D94D45EAE408E959D /* Theme.swift */,
 			);
 			path = Theme;
@@ -342,6 +352,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1506D28500FE61992E234DF /* A11y.swift in Sources */,
 				1D10A59732BAE8E091C77B98 /* AlineaAmountEntryApp.swift in Sources */,
 				D11B2FCAA6E5E83A05EBBCF0 /* AmountDisplayView.swift in Sources */,
 				01D85A8D4141DC799A8EE3AF /* AmountEntryView.swift in Sources */,
@@ -353,6 +364,8 @@
 				9D864E694B27E5AB2FD2D752 /* Haptics.swift in Sources */,
 				7D3DFF8A3C3DAA05EF3B5885 /* HomeIndicatorView.swift in Sources */,
 				4F85E41FFAEEA8308D6643ED /* KeypadView.swift in Sources */,
+				437D8E0A47441A1FEA0EB6B4 /* Metrics.swift in Sources */,
+				22A1E5D49F5DE018958CD3F9 /* PressableStyle.swift in Sources */,
 				33FCB6698E9A474B63E7E870 /* QuickAmountChipsView.swift in Sources */,
 				4BC76B9F19943BD437AA2182 /* ReviewButton.swift in Sources */,
 				42C265CA83FB4FAD308C3C91 /* StatusBarView.swift in Sources */,
@@ -365,6 +378,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93E360772E79A84CE72193AA /* A11y.swift in Sources */,
 				7108C5C55EDA99F3280D6385 /* AmountEntryUITests.swift in Sources */,
 				021445348B50DC7F8832DB9A /* DemoRecordingTests.swift in Sources */,
 			);

@@ -47,6 +47,9 @@ targets:
     deploymentTarget: "17.0"
     sources:
       - path: AlineaAmountEntryUITests
+      # Shared accessibility-identifier namespace, compiled into both the app
+      # and the UI-test target so a rename is a compile error, not a flaky test.
+      - path: AlineaAmountEntry/Sources/Utilities/A11y.swift
     dependencies:
       - target: AlineaAmountEntry
     settings:
@@ -64,5 +67,9 @@ schemes:
     test:
       targets:
         - AlineaAmountEntryTests
-        - AlineaAmountEntryUITests
+        - name: AlineaAmountEntryUITests
+          skippedTests:
+            # Demo recording is paced with sleeps; run it explicitly via
+            # -only-testing rather than in the default suite.
+            - DemoRecordingTests
       gatherCoverageData: true

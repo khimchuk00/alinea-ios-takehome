@@ -1,7 +1,14 @@
 import SwiftUI
 
-/// A static iOS-style status bar (time + signal/Wi-Fi/battery) matching the
-/// "9:41" mock in the Figma frames.
+/// A static iOS-style status bar (time + signal/Wi-Fi/battery) reproducing the
+/// "9:41" mock that is part of the Figma frame.
+///
+/// The design frame includes its own status bar and home indicator, so the
+/// screen is rendered full-bleed (`.ignoresSafeArea()`) and this view recreates
+/// that chrome for 1:1 parity. The trade-off is that the layout is tuned to the
+/// design's iPhone geometry rather than reading live safe-area insets; a
+/// production screen would instead let the system status bar show through and
+/// drive spacing from `safeAreaInsets`.
 struct StatusBarView: View {
     var body: some View {
         HStack {
@@ -18,8 +25,8 @@ struct StatusBarView: View {
                 BatteryIcon()
             }
         }
-        .padding(.horizontal, 32)
-        .frame(height: 47)
+        .padding(.horizontal, Metrics.Inset.statusBar)
+        .frame(height: Metrics.Size.statusBarHeight)
     }
 }
 

@@ -11,19 +11,7 @@ struct AutomatedBadge: View {
             .padding(.vertical, 4)
             .background(AppColor.background.opacity(0.35), in: Capsule())
             .overlay(
-                Capsule()
-                    .strokeBorder(
-                        AngularGradient(
-                            gradient: Gradient(colors: [
-                                AppColor.brandBlue,
-                                AppColor.brandViolet,
-                                AppColor.brand,
-                                AppColor.brandBlue
-                            ]),
-                            center: .center
-                        ),
-                        lineWidth: 1.5
-                    )
+                Capsule().strokeBorder(AppGradient.badgeBorder, lineWidth: 1.5)
             )
     }
 }

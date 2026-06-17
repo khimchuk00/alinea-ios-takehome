@@ -15,11 +15,11 @@ struct TopGlow: View {
                     endRadius: 260
                 )
             )
-            .frame(width: 519, height: 519)
-            .offset(y: -273)
+            .frame(width: Metrics.Size.topGlowDiameter, height: Metrics.Size.topGlowDiameter)
+            .offset(y: Metrics.Size.topGlowOffsetY)
             .blur(radius: 24)
             .opacity(isVisible ? 1 : 0)
-            .animation(.easeInOut(duration: 0.5), value: isVisible)
+            .animation(Motion.glowFade, value: isVisible)
             .allowsHitTesting(false)
     }
 }

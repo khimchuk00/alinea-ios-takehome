@@ -21,6 +21,9 @@ enum AppColor {
     /// main/accent — #FFEE59
     static let accent = Color(hex: 0xFFEE59)
 
+    /// Canonical brand color ramp — the single source for every brand gradient.
+    static let brandRamp: [Color] = [brand, brandViolet, brandBlue]
+
     /// Suggestion chip fill — rgba(35,33,44,0.75)
     static let chipBackground = Color(hex: 0x23212C).opacity(0.75)
 
@@ -77,5 +80,44 @@ enum AppFont {
     /// Keypad digits — SF Pro Medium (system).
     static func keypad(_ size: CGFloat = 36.65) -> Font {
         .system(size: size, weight: .medium)
+    }
+}
+
+// MARK: - Gradients
+//
+// Every brand gradient derives from `AppColor.brandRamp`, so the palette is
+// tuned in exactly one place.
+
+enum AppGradient {
+    /// Seamless palindrome loop used by the rotating Review border (comment #2).
+    static var brandRingColors: [Color] {
+        AppColor.brandRamp + AppColor.brandRamp.dropLast().reversed()
+    }
+
+    /// Rotating angular gradient for the Review button border.
+    static func brandRing(rotation: Double) -> AngularGradient {
+        AngularGradient(
+            gradient: Gradient(colors: brandRingColors),
+            center: .center,
+            startAngle: .degrees(rotation),
+            endAngle: .degrees(rotation + 360)
+        )
+    }
+
+    /// Static brand border for the AUTOMATED badge.
+    static var badgeBorder: AngularGradient {
+        AngularGradient(
+            gradient: Gradient(colors: AppColor.brandRamp.reversed() + [AppColor.brandBlue]),
+            center: .center
+        )
+    }
+
+    /// Soft multicolor halo behind the Review pill.
+    static var reviewGlow: LinearGradient {
+        LinearGradient(
+            colors: AppColor.brandRamp.reversed() + [AppColor.accent.opacity(0.7)],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
     }
 }

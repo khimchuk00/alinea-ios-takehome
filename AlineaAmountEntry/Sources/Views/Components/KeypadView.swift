@@ -43,21 +43,22 @@ struct KeypadView: View {
                     .tracking(-1.1)
                     .foregroundStyle(.white)
             }
-            .accessibilityIdentifier("key-\(value)")
+            .accessibilityIdentifier(A11y.digitKey(value))
         case .decimal:
             KeypadButton(isEnabled: canAddDecimal, action: onDecimal) {
-                Text(".")
+                Text(AmountFormatter.decimalSeparator)
                     .font(AppFont.keypad())
                     .foregroundStyle(.white)
             }
-            .accessibilityIdentifier("key-decimal")
+            .accessibilityIdentifier(A11y.keyDecimal)
+            .accessibilityLabel("Decimal point")
         case .backspace:
             KeypadButton(action: onBackspace) {
                 Image(systemName: "delete.left")
                     .font(.system(size: 26, weight: .regular))
                     .foregroundStyle(.white.opacity(0.85))
             }
-            .accessibilityIdentifier("key-delete")
+            .accessibilityIdentifier(A11y.keyDelete)
             .accessibilityLabel("Delete")
         }
     }
@@ -69,6 +70,8 @@ struct KeypadButton<Label: View>: View {
     let action: () -> Void
     @ViewBuilder var label: () -> Label
 
+    private let disabledOpacity: CGFloat = 0.3
+
     var body: some View {
         Button {
             Haptics.keyTap()
@@ -76,12 +79,12 @@ struct KeypadButton<Label: View>: View {
         } label: {
             label()
                 .frame(maxWidth: .infinity)
-                .frame(height: 68)
+                .frame(height: Metrics.Size.keyHeight)
                 .contentShape(Rectangle())
         }
         .buttonStyle(PressableStyle(scale: 0.88))
         .disabled(!isEnabled)
-        .opacity(isEnabled ? 1 : 0.3)
-        .animation(.easeOut(duration: 0.18), value: isEnabled)
+        .opacity(isEnabled ? 1 : disabledOpacity)
+        .animation(Motion.keyEnable, value: isEnabled)
     }
 }

@@ -8,53 +8,74 @@ final class AmountEntryUITests: XCTestCase {
     override func setUp() {
         continueAfterFailure = false
         app = XCUIApplication()
+    }
+
+    @discardableResult
+    private func launch(prefill: String? = nil) -> XCUIApplication {
+        if let prefill { app.launchEnvironment["AMOUNT_PREFILL"] = prefill }
         app.launch()
+        return app
     }
 
     private func currentAmount() -> String {
-        if app.staticTexts["amountDisplay"].exists {
-            return app.staticTexts["amountDisplay"].label
+        if app.staticTexts[A11y.amountDisplay].exists {
+            return app.staticTexts[A11y.amountDisplay].label
         }
-        return app.otherElements["amountDisplay"].label
+        return app.otherElements[A11y.amountDisplay].label
     }
 
     func testStartsInEmptyState() {
+        launch()
         XCTAssertEqual(currentAmount(), "$0")
-        XCTAssertTrue(app.buttons["chip-500"].exists)
-        XCTAssertFalse(app.buttons["reviewButton"].exists)
+        XCTAssertTrue(app.buttons[A11y.chip(500)].exists)
+        XCTAssertFalse(app.buttons[A11y.reviewButton].exists)
     }
 
     func testKeypadEntersAndGroupsAmount() {
-        app.buttons["key-2"].tap()
-        app.buttons["key-0"].tap()
-        app.buttons["key-0"].tap()
-        app.buttons["key-0"].tap()
+        launch()
+        [2, 0, 0, 0].forEach { app.buttons[A11y.digitKey($0)].tap() }
         XCTAssertEqual(currentAmount(), "$2,000")
-        XCTAssertTrue(app.buttons["reviewButton"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.buttons[A11y.reviewButton].waitForExistence(timeout: 2))
     }
 
     func testBackspaceRemovesDigits() {
-        app.buttons["key-1"].tap()
-        app.buttons["key-2"].tap()
-        app.buttons["key-3"].tap()
-        app.buttons["key-delete"].tap()
+        launch()
+        [1, 2, 3].forEach { app.buttons[A11y.digitKey($0)].tap() }
+        app.buttons[A11y.keyDelete].tap()
         XCTAssertEqual(currentAmount(), "$12")
     }
 
     func testDecimalIsDisabledAfterUse() {
-        app.buttons["key-5"].tap()
-        XCTAssertTrue(app.buttons["key-decimal"].isEnabled)
-        app.buttons["key-decimal"].tap()
-        app.buttons["key-2"].tap()
-        app.buttons["key-5"].tap()
+        launch()
+        app.buttons[A11y.digitKey(5)].tap()
+        XCTAssertTrue(app.buttons[A11y.keyDecimal].isEnabled)
+        app.buttons[A11y.keyDecimal].tap()
+        app.buttons[A11y.digitKey(2)].tap()
+        app.buttons[A11y.digitKey(5)].tap()
         XCTAssertEqual(currentAmount(), "$5.25")
-        XCTAssertFalse(app.buttons["key-decimal"].isEnabled)
+        XCTAssertFalse(app.buttons[A11y.keyDecimal].isEnabled)
     }
 
     func testSuggestionChipFillsAmountAndShowsReview() {
-        app.buttons["chip-2000"].tap()
+        launch()
+        app.buttons[A11y.chip(2000)].tap()
         XCTAssertEqual(currentAmount(), "$2,000")
-        XCTAssertTrue(app.buttons["reviewButton"].waitForExistence(timeout: 2))
-        XCTAssertFalse(app.buttons["chip-500"].exists)
+        XCTAssertTrue(app.buttons[A11y.reviewButton].waitForExistence(timeout: 2))
+        XCTAssertFalse(app.buttons[A11y.chip(500)].exists)
+    }
+
+    /// The largest legal value still renders as a single grouped label
+    /// (exercises the auto-shrink path — comment #7).
+    func testLargeValueStaysGrouped() {
+        launch()
+        for _ in 0..<12 { app.buttons[A11y.digitKey(9)].tap() }
+        XCTAssertEqual(currentAmount(), "$999,999,999,999")
+    }
+
+    /// The DEBUG-only AMOUNT_PREFILL hook seeds the entered state on cold launch.
+    func testLaunchPrefillSeedsEnteredState() {
+        launch(prefill: "2000")
+        XCTAssertEqual(currentAmount(), "$2,000")
+        XCTAssertTrue(app.buttons[A11y.reviewButton].waitForExistence(timeout: 2))
     }
 }

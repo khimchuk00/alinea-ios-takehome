@@ -10,7 +10,7 @@ struct BackButton: View {
             Image(systemName: "chevron.left")
                 .font(.system(size: 20, weight: .semibold))
                 .foregroundStyle(.white)
-                .frame(width: 36, height: 36)
+                .frame(width: Metrics.Size.backButton, height: Metrics.Size.backButton)
                 .contentShape(Rectangle())
         }
         .buttonStyle(PressableStyle(scale: 0.9))

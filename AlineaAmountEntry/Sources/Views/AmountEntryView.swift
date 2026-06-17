@@ -5,24 +5,23 @@ import SwiftUI
 struct AmountEntryView: View {
     @State private var viewModel: AmountEntryViewModel
 
-    init() {
-        // Optional seed used for previews/screenshots: launch with
-        // `AMOUNT_PREFILL=2000` to start in the entered state. No effect otherwise.
-        let prefill = ProcessInfo.processInfo.environment["AMOUNT_PREFILL"] ?? ""
-        _viewModel = State(initialValue: AmountEntryViewModel(initialInput: prefill))
+    init(viewModel: AmountEntryViewModel = AmountEntryViewModel()) {
+        _viewModel = State(initialValue: viewModel)
     }
 
     var body: some View {
-        GeometryReader { geo in
-            ZStack(alignment: .top) {
-                AppColor.background
-                TopGlow(isVisible: !viewModel.isEmpty)
-                content
-                    .frame(width: geo.size.width)
-            }
-            .frame(width: geo.size.width, height: geo.size.height)
-            .clipped()
+        ZStack(alignment: .top) {
+            AppColor.background
+            TopGlow(isVisible: !viewModel.isEmpty)
+            // Pin the content to the screen width so the off-screen top glow
+            // (wider than the screen) can't stretch the layout.
+            content
+                .containerRelativeFrame(.horizontal)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .clipped()
+        // Full-bleed to match the Figma frame, which includes its own status bar
+        // and home indicator mock. (See StatusBarView for the rationale.)
         .ignoresSafeArea()
         .persistentSystemOverlays(.hidden)
         .onAppear { Haptics.prepare() }
@@ -33,19 +32,19 @@ struct AmountEntryView: View {
             StatusBarView()
 
             navigationRow
-                .padding(.top, 27)
-                .padding(.horizontal, 18)
+                .padding(.top, Metrics.Spacing.navTop)
+                .padding(.horizontal, Metrics.Inset.nav)
 
-            Spacer().frame(height: 142)
+            Spacer().frame(height: Metrics.Spacing.navToAmount)
 
             AmountDisplayView(isEmpty: viewModel.isEmpty, amountText: viewModel.displayAmount)
 
             Spacer(minLength: 0)
 
             swapSlot
-                .frame(height: 50)
+                .frame(height: Metrics.Size.swapHeight)
 
-            Spacer().frame(height: 30)
+            Spacer().frame(height: Metrics.Spacing.swapToKeypad)
 
             KeypadView(
                 canAddDecimal: viewModel.canAddDecimal,
@@ -53,27 +52,32 @@ struct AmountEntryView: View {
                 onDecimal: { viewModel.tapDecimal() },
                 onBackspace: { viewModel.tapBackspace() }
             )
-            .padding(.horizontal, 6)
+            .padding(.horizontal, Metrics.Inset.keypad)
 
-            Spacer().frame(height: 6)
+            Spacer().frame(height: Metrics.Spacing.keypadToHome)
 
             HomeIndicatorView()
 
-            Spacer().frame(height: 6)
+            Spacer().frame(height: Metrics.Spacing.homeToBottom)
         }
     }
 
     private var navigationRow: some View {
         ZStack {
             HStack {
+                // Back is intentionally non-functional per the brief
+                // ("the back button doesn't need to do anything").
                 BackButton()
                 Spacer()
             }
             AutomatedBadge()
         }
-        .frame(height: 36)
+        .frame(height: Metrics.Size.navRowHeight)
     }
 
+    /// The swap slot below the amount: suggestion chips while empty (comment #1),
+    /// the Review button once a value is entered, cross-fading between the two
+    /// (comment #3).
     @ViewBuilder
     private var swapSlot: some View {
         ZStack {
@@ -82,18 +86,19 @@ struct AmountEntryView: View {
                     amounts: viewModel.suggestions,
                     onSelect: { viewModel.selectSuggestion($0) }
                 )
-                .padding(.horizontal, 41)
-                .transition(.scale(scale: 0.85).combined(with: .opacity))
+                .padding(.horizontal, Metrics.Inset.chips)
+                .transition(.scale(scale: Motion.chipsTransitionScale).combined(with: .opacity))
             } else {
+                // Review is intentionally non-functional per the brief.
                 ReviewButton()
-                    .padding(.horizontal, 24)
-                    .transition(.scale(scale: 0.92).combined(with: .opacity))
+                    .padding(.horizontal, Metrics.Inset.review)
+                    .transition(.scale(scale: Motion.reviewTransitionScale).combined(with: .opacity))
             }
         }
-        .animation(.spring(response: 0.42, dampingFraction: 0.82), value: viewModel.showsSuggestions)
+        .animation(Motion.swap, value: viewModel.showsSuggestions)
     }
 }
 
 #Preview {
-    AmountEntryView()
+    AmountEntryView(viewModel: AmountEntryViewModel(initialInput: "2000"))
 }
