@@ -49,11 +49,14 @@ xcodebuild test -scheme AlineaAmountEntry \
   -destination 'platform=iOS Simulator,name=iPhone 17'
 ```
 
-- **`AlineaAmountEntryTests`** — 18 unit tests covering every keypad rule
-  (grouping, leading zeros, decimal limits, backspace, suggestions, limits).
-- **`AlineaAmountEntryUITests`** — end-to-end tests that tap the on-screen keypad
-  and assert the displayed amount, proving the pad is "fully functional", plus a
-  scripted walkthrough (`DemoRecordingTests`) used to record the demo video.
+- **`AlineaAmountEntryTests`** — 20 unit tests covering every keypad rule
+  (grouping, leading zeros, decimal limits, zero-vs-empty, backspace, suggestions).
+- **`AlineaAmountEntryUITests`** — 7 end-to-end tests that tap the on-screen
+  keypad and assert the displayed amount, proving the pad is "fully functional"
+  (including the launch-prefill hook and the large-value path).
+- `DemoRecordingTests` is the scripted walkthrough used to record the demo video.
+  It's excluded from the default suite (it's paced with sleeps); run it with
+  `-only-testing:AlineaAmountEntryUITests/DemoRecordingTests`.
 
 ## How the design comments were addressed
 
@@ -80,9 +83,12 @@ A small **MVVM** structure keeps all input logic testable and separate from the 
 AlineaAmountEntry/
 ├── App/                         # @main entry, Info.plist (fonts, status bar)
 ├── Sources/
-│   ├── Theme/Theme.swift        # colors & fonts (from Figma variables)
+│   ├── Theme/
+│   │   ├── Theme.swift          # colors, fonts & brand gradients (Figma variables)
+│   │   └── Metrics.swift        # layout + motion design tokens (no magic numbers)
 │   ├── Utilities/
 │   │   ├── AmountFormatter.swift # "$1,234.56" formatting (locale-independent)
+│   │   ├── A11y.swift            # accessibility-id namespace (shared with UI tests)
 │   │   └── Haptics.swift
 │   ├── ViewModels/
 │   │   └── AmountEntryViewModel.swift   # all keypad rules — fully unit-tested
@@ -90,7 +96,8 @@ AlineaAmountEntry/
 │       ├── AmountEntryView.swift        # screen assembly
 │       └── Components/                   # StatusBar, AutomatedBadge, BackButton,
 │                                         # AmountDisplay (+caret), QuickAmountChips,
-│                                         # Keypad, ReviewButton, TopGlow, HomeIndicator
+│                                         # Keypad, ReviewButton, PressableStyle,
+│                                         # TopGlow, HomeIndicator
 ├── Resources/
 │   ├── Fonts/                   # GT Flexa Cn Md, Instrument Sans SemiCondensed
 │   └── Assets.xcassets
@@ -110,6 +117,7 @@ AlineaAmountEntryUITests/        # UI tests + demo recording
 
 ### Testing/preview hook
 
-Launching with the `AMOUNT_PREFILL` environment variable seeds the entered amount
-(e.g. `AMOUNT_PREFILL=2000`). This is used by `scripts/snapshot.sh` to capture the
-README screenshots; it has no effect during normal use.
+In **DEBUG** builds only, launching with the `AMOUNT_PREFILL` environment variable
+seeds the entered amount (e.g. `AMOUNT_PREFILL=2000`). It is used by the UI tests
+and by `scripts/snapshot.sh` to capture the README screenshots, and is compiled
+out of release builds.
