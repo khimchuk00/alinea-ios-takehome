@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# Xcode user/build artifacts
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad
+DerivedData/
+build/
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.swiftpm/
+.build/
+Packages/
+
+# Figma reference assets (not part of the deliverable)
+_figma_ref/
