@@ -8,7 +8,11 @@ import Foundation
 enum AmountFormatter {
     static let currencySymbol = "$"
     static let groupingSeparator = ","
-    static let decimalSeparator = "."
+    static let decimalSeparatorChar: Character = "."
+    static let decimalSeparator = String(decimalSeparatorChar)
+
+    /// The "$0" shown for an empty / effectively-zero amount.
+    static let zeroPlaceholder = currencySymbol + "0"
 
     /// Formats a raw numeric input string (digits with an optional single ".")
     /// into a currency string such as `"$1,234.56"`. An empty input yields the

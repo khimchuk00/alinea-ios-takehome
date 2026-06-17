@@ -55,12 +55,34 @@ final class AmountEntryViewModelTests: XCTestCase {
 
     // MARK: Decimal behaviour (comment #6)
 
-    func testDecimalOnEmptyAddsLeadingZero() {
+    func testDecimalOnEmptyAddsLeadingZeroButStaysEmpty() {
         let viewModel = makeViewModel()
         viewModel.tapDecimal()
         XCTAssertEqual(viewModel.rawInput, "0.")
-        XCTAssertEqual(viewModel.displayAmount, "$0.")
         XCTAssertFalse(viewModel.canAddDecimal)
+        // "0." is effectively zero: suggestions stay, Review stays hidden.
+        XCTAssertTrue(viewModel.isEmpty)
+        XCTAssertTrue(viewModel.showsSuggestions)
+        XCTAssertEqual(viewModel.displayAmount, "$0")
+    }
+
+    func testZeroThenDecimalIsStillEmpty() {
+        let viewModel = makeViewModel()
+        viewModel.tapDigit(0)
+        viewModel.tapDecimal()
+        XCTAssertEqual(viewModel.rawInput, "0.")
+        XCTAssertTrue(viewModel.isEmpty)
+        XCTAssertTrue(viewModel.showsSuggestions)
+    }
+
+    func testZerosWithDecimalBecomeNonEmptyOnNonZeroDigit() {
+        let viewModel = makeViewModel()
+        viewModel.tapDecimal()   // "0."
+        viewModel.tapDigit(0)    // "0.0" — still zero
+        XCTAssertTrue(viewModel.isEmpty)
+        viewModel.tapDigit(5)    // "0.05" — now a real amount
+        XCTAssertFalse(viewModel.isEmpty)
+        XCTAssertEqual(viewModel.displayAmount, "$0.05")
     }
 
     func testSecondDecimalIsIgnored() {

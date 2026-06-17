@@ -16,6 +16,11 @@ struct AmountDisplayView: View {
     private let caretHeightRatio: CGFloat = 1.06
     private let caretWidthRatio: CGFloat = 0.03
 
+    /// Typographic tracking factor for GT Flexa at `maxFontSize`, scaled with the
+    /// font size. Defined once so the rendered text and the width measurement can
+    /// never drift apart.
+    private let trackingFactor: CGFloat = -2
+
     var body: some View {
         GeometryReader { geo in
             let available = geo.size.width - horizontalPadding * 2
@@ -25,29 +30,28 @@ struct AmountDisplayView: View {
         .frame(height: maxFontSize * caretHeightRatio)
         .accessibilityElement(children: .ignore)
         .accessibilityAddTraits(.isStaticText)
-        .accessibilityIdentifier("amountDisplay")
+        .accessibilityIdentifier(A11y.amountDisplay)
         .accessibilityLabel(amountText)
     }
 
     @ViewBuilder
     private func content(availableWidth: CGFloat) -> some View {
         if isEmpty {
-            let size = maxFontSize
             HStack(spacing: 0) {
-                Text("$")
-                    .foregroundStyle(AppColor.amountPlaceholder)
-                BlinkingCaret(height: size * caretHeightRatio, width: caretWidth(size))
-                Text("0")
-                    .foregroundStyle(AppColor.amountPlaceholder)
+                Text("$").foregroundStyle(AppColor.amountPlaceholder)
+                caret(for: maxFontSize)
+                Text("0").foregroundStyle(AppColor.amountPlaceholder)
             }
-            .font(AppFont.amount(size))
-            .tracking(-2)
+            .font(AppFont.amount(maxFontSize))
+            .tracking(kern(for: maxFontSize))
         } else {
             let size = fittingSize(for: amountText, maxWidth: availableWidth)
             HStack(spacing: 0) {
                 Text(amountText)
                     .font(AppFont.amount(size))
-                    .tracking(size / maxFontSize * -2)
+                    .tracking(kern(for: size))
+                    .lineLimit(1)
+                    .minimumScaleFactor(minFontSize / maxFontSize)
                     .foregroundStyle(
                         LinearGradient(
                             stops: [
@@ -60,32 +64,37 @@ struct AmountDisplayView: View {
                         )
                     )
                     .shadow(color: .black.opacity(0.45), radius: 1, x: 0, y: 4)
-                BlinkingCaret(height: size * caretHeightRatio, width: caretWidth(size))
+                caret(for: size)
             }
         }
+    }
+
+    private func caret(for size: CGFloat) -> some View {
+        BlinkingCaret(height: size * caretHeightRatio, width: caretWidth(size))
     }
 
     private func caretWidth(_ size: CGFloat) -> CGFloat {
         max(2.5, size * caretWidthRatio)
     }
 
-    /// Largest GT Flexa size (<= maxFontSize) at which the amount + caret fits
-    /// within `maxWidth`.
+    private func kern(for size: CGFloat) -> CGFloat {
+        size / maxFontSize * trackingFactor
+    }
+
+    /// The largest GT Flexa size (within `[minFontSize, maxFontSize]`) at which
+    /// the amount plus caret fits in `maxWidth`. Measures once at the max size and
+    /// scales down exactly, so it never skips sizes or returns an unmeasured floor.
     private func fittingSize(for text: String, maxWidth: CGFloat) -> CGFloat {
-        var size = maxFontSize
-        while size > minFontSize {
-            if let uiFont = UIFont(name: AppFont.gtFlexaCondensedMedium, size: size) {
-                let attributes: [NSAttributedString.Key: Any] = [
-                    .font: uiFont,
-                    .kern: size / maxFontSize * -2
-                ]
-                let width = (text as NSString).size(withAttributes: attributes).width
-                if width + caretWidth(size) <= maxWidth { break }
-            } else {
-                break
-            }
-            size -= 2
+        guard let uiFont = UIFont(name: AppFont.gtFlexaCondensedMedium, size: maxFontSize) else {
+            return maxFontSize
         }
-        return size
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: uiFont,
+            .kern: kern(for: maxFontSize)
+        ]
+        let measured = (text as NSString).size(withAttributes: attributes).width + caretWidth(maxFontSize)
+        guard measured > maxWidth else { return maxFontSize }
+        let scaled = maxFontSize * (maxWidth / measured)
+        return min(maxFontSize, max(minFontSize, scaled))
     }
 }

@@ -36,9 +36,11 @@ final class AmountEntryViewModel {
 
     // MARK: Derived state
 
-    /// True while the entered value is effectively nothing (empty or a lone 0).
+    /// True while the entered value is effectively nothing — empty or only
+    /// zeros (`""`, `"0"`, `"0."`, `"0.00"`). A lone decimal point is not a
+    /// real amount, so it must not unlock Review.
     var isEmpty: Bool {
-        rawInput.isEmpty || rawInput == "0"
+        !rawInput.contains { $0.isNumber && $0 != "0" }
     }
 
     /// Comment #1 — suggestion bubbles appear only when nothing is entered.
@@ -46,11 +48,12 @@ final class AmountEntryViewModel {
 
     /// Comment #6 — the decimal key is "inappropriate" (disabled) once a
     /// decimal point already exists.
-    var canAddDecimal: Bool { !rawInput.contains(".") }
+    var canAddDecimal: Bool { !rawInput.contains(AmountFormatter.decimalSeparatorChar) }
 
-    /// Formatted amount for display, e.g. `"$1,234.56"` or the `"$0"` placeholder.
+    /// Formatted amount for display, e.g. `"$1,234.56"`, or the `"$0"`
+    /// placeholder while the value is effectively zero.
     var displayAmount: String {
-        AmountFormatter.formatted(rawInput: rawInput)
+        isEmpty ? AmountFormatter.zeroPlaceholder : AmountFormatter.formatted(rawInput: rawInput)
     }
 
     // MARK: Intents
@@ -64,7 +67,7 @@ final class AmountEntryViewModel {
             return
         }
 
-        if let dotIndex = rawInput.firstIndex(of: ".") {
+        if let dotIndex = rawInput.firstIndex(of: AmountFormatter.decimalSeparatorChar) {
             let fractionCount = rawInput.distance(from: rawInput.index(after: dotIndex),
                                                   to: rawInput.endIndex)
             guard fractionCount < maxFractionDigits else { return }
@@ -77,7 +80,8 @@ final class AmountEntryViewModel {
 
     func tapDecimal() {
         guard canAddDecimal else { return }
-        rawInput = rawInput.isEmpty ? "0." : rawInput + "."
+        let separator = AmountFormatter.decimalSeparator
+        rawInput = rawInput.isEmpty ? "0" + separator : rawInput + separator
     }
 
     func tapBackspace() {
