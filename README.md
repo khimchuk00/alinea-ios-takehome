@@ -9,7 +9,10 @@ drives a live, formatted amount; the screen reproduces the two sample states
 |:---:|:---:|:---:|:---:|
 | ![Empty](screenshots/01-empty.png) | ![Entered](screenshots/02-entered.png) | ![Large](screenshots/03-large-scaling.png) | ![Decimal](screenshots/04-decimal.png) |
 
-🎬 **Demo video:** [`screenshots/demo.mp4`](screenshots/demo.mp4) — typing & grouping, chip → Review transition, decimal handling, and the amount auto-scaling.
+🎬 **Demo clip:** [`screenshots/demo.mp4`](screenshots/demo.mp4) — the entered state with the
+animated Review border (a brand gradient with a bright highlight sweeping around
+it), the breathing glow and the blinking caret. The four stills above show the
+keypad results; the keypad behavior itself is covered by the UI tests.
 
 ---
 
@@ -33,7 +36,7 @@ Or from the command line:
 
 ```bash
 xcodebuild -scheme AlineaAmountEntry \
-  -destination 'platform=iOS Simulator,name=iPhone 17' build
+  -destination 'generic/platform=iOS Simulator' build
 ```
 
 To regenerate the project after editing `project.yml`:
@@ -45,8 +48,9 @@ xcodegen generate
 ## Running the tests
 
 ```bash
+# substitute any installed iOS 17+ simulator (or just press ⌘U in Xcode)
 xcodebuild test -scheme AlineaAmountEntry \
-  -destination 'platform=iOS Simulator,name=iPhone 17'
+  -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
 
 - **`AlineaAmountEntryTests`** — 20 unit tests covering every keypad rule

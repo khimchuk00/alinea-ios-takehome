@@ -32,6 +32,8 @@ enum Metrics {
 
     /// Fixed element sizes.
     enum Size {
+        /// Minimum tappable size (Apple HIG).
+        static let minTapTarget: CGFloat = 44
         static let statusBarHeight: CGFloat = 47
         static let navRowHeight: CGFloat = 36
         static let backButton: CGFloat = 36
@@ -58,7 +60,9 @@ enum Motion {
     static let reviewTransitionScale: CGFloat = 0.92
 
     /// Review border gradient rotation (comment #2).
-    static let ringSpinDuration: Double = 3.5
+    static let ringSpinDuration: Double = 2.2
+    /// Review glow "breathing" pulse.
+    static let glowPulseDuration: Double = 1.4
 
     /// Caret blink (comment #5).
     static let caretBlinkDuration: Double = 0.55

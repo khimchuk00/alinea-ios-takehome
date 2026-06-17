@@ -172,6 +172,39 @@ final class AmountEntryViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.rawInput, "1234")
     }
 
+    func testDefaultMaxIntegerDigitsCapsAtTwelve() {
+        let viewModel = makeViewModel()
+        for _ in 0..<15 { viewModel.tapDigit(9) }
+        XCTAssertEqual(viewModel.rawInput, "999999999999")
+        XCTAssertEqual(viewModel.displayAmount, "$999,999,999,999")
+    }
+
+    func testFractionCapWithGroupedInteger() {
+        let viewModel = makeViewModel()
+        [1, 2, 3, 4].forEach(viewModel.tapDigit)
+        viewModel.tapDecimal()
+        [5, 6, 7].forEach(viewModel.tapDigit)  // only two fraction digits accepted
+        XCTAssertEqual(viewModel.displayAmount, "$1,234.56")
+    }
+
+    // MARK: External input is sanitized to the rawInput invariant
+
+    func testInitialInputDropsInvalidCharactersAndExtraDot() {
+        let viewModel = AmountEntryViewModel(initialInput: "ab1,2x3.4.5!")
+        XCTAssertEqual(viewModel.rawInput, "123.45")
+        XCTAssertEqual(viewModel.displayAmount, "$123.45")
+    }
+
+    func testInitialInputClampsToLimits() {
+        let viewModel = AmountEntryViewModel(initialInput: "1234567890123456")
+        XCTAssertEqual(viewModel.rawInput, "123456789012")
+    }
+
+    func testInitialInputNormalizesLeadingZeros() {
+        XCTAssertEqual(AmountEntryViewModel(initialInput: "007").rawInput, "7")
+        XCTAssertEqual(AmountEntryViewModel(initialInput: "000").rawInput, "0")
+    }
+
     func testReset() {
         let viewModel = makeViewModel()
         [1, 2, 3].forEach(viewModel.tapDigit)

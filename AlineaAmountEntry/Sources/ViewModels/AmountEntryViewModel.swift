@@ -28,10 +28,12 @@ final class AmountEntryViewModel {
          maxIntegerDigits: Int = 12,
          maxFractionDigits: Int = 2,
          suggestions: [Int] = [500, 2_000, 10_000]) {
-        self.rawInput = initialInput
         self.maxIntegerDigits = maxIntegerDigits
         self.maxFractionDigits = maxFractionDigits
         self.suggestions = suggestions
+        self.rawInput = Self.sanitized(initialInput,
+                                       maxIntegerDigits: maxIntegerDigits,
+                                       maxFractionDigits: maxFractionDigits)
     }
 
     // MARK: Derived state
@@ -95,5 +97,32 @@ final class AmountEntryViewModel {
 
     func reset() {
         rawInput = ""
+    }
+
+    /// Coerces an externally-provided string into the `rawInput` invariant
+    /// (digits, at most one decimal point, within the length limits) so the
+    /// DEBUG prefill / any external seed can't produce malformed state.
+    private static func sanitized(_ input: String,
+                                  maxIntegerDigits: Int,
+                                  maxFractionDigits: Int) -> String {
+        var integer = ""
+        var fraction = ""
+        var sawDot = false
+        for character in input {
+            if character.isNumber {
+                if sawDot {
+                    if fraction.count < maxFractionDigits { fraction.append(character) }
+                } else if integer.count < maxIntegerDigits {
+                    integer.append(character)
+                }
+            } else if character == AmountFormatter.decimalSeparatorChar, !sawDot {
+                sawDot = true
+            }
+        }
+        if integer.count > 1 {  // normalise leading zeros to match the keypad invariant
+            integer = String(integer.drop(while: { $0 == "0" }))
+            if integer.isEmpty { integer = "0" }
+        }
+        return sawDot ? integer + AmountFormatter.decimalSeparator + fraction : integer
     }
 }

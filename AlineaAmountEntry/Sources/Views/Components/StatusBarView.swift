@@ -27,6 +27,7 @@ struct StatusBarView: View {
         }
         .padding(.horizontal, Metrics.Inset.statusBar)
         .frame(height: Metrics.Size.statusBarHeight)
+        .accessibilityHidden(true)  // decorative mock chrome
     }
 }
 

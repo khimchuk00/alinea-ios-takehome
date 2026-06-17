@@ -8,5 +8,6 @@ struct HomeIndicatorView: View {
             .frame(width: Metrics.Size.homeIndicator.width, height: Metrics.Size.homeIndicator.height)
             .opacity(0.4)
             .frame(height: 24, alignment: .center)
+            .accessibilityHidden(true)  // decorative mock chrome
     }
 }

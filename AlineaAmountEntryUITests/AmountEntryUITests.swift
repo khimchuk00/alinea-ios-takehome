@@ -18,10 +18,10 @@ final class AmountEntryUITests: XCTestCase {
     }
 
     private func currentAmount() -> String {
-        if app.staticTexts[A11y.amountDisplay].exists {
-            return app.staticTexts[A11y.amountDisplay].label
-        }
-        return app.otherElements[A11y.amountDisplay].label
+        let element = app.staticTexts[A11y.amountDisplay].exists
+            ? app.staticTexts[A11y.amountDisplay]
+            : app.otherElements[A11y.amountDisplay]
+        return (element.value as? String) ?? element.label
     }
 
     func testStartsInEmptyState() {

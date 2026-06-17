@@ -31,7 +31,8 @@ struct AmountDisplayView: View {
         .accessibilityElement(children: .ignore)
         .accessibilityAddTraits(.isStaticText)
         .accessibilityIdentifier(A11y.amountDisplay)
-        .accessibilityLabel(amountText)
+        .accessibilityLabel("Amount")
+        .accessibilityValue(amountText)
     }
 
     @ViewBuilder
@@ -52,17 +53,7 @@ struct AmountDisplayView: View {
                     .tracking(kern(for: size))
                     .lineLimit(1)
                     .minimumScaleFactor(minFontSize / maxFontSize)
-                    .foregroundStyle(
-                        LinearGradient(
-                            stops: [
-                                .init(color: .white, location: 0.0),
-                                .init(color: .white, location: 0.46),
-                                .init(color: Color.white.opacity(0.58), location: 1.0)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
+                    .foregroundStyle(AppGradient.amountText)
                     .shadow(color: .black.opacity(0.45), radius: 1, x: 0, y: 4)
                 caret(for: size)
             }
@@ -85,9 +76,10 @@ struct AmountDisplayView: View {
     /// the amount plus caret fits in `maxWidth`. Measures once at the max size and
     /// scales down exactly, so it never skips sizes or returns an unmeasured floor.
     private func fittingSize(for text: String, maxWidth: CGFloat) -> CGFloat {
-        guard let uiFont = UIFont(name: AppFont.gtFlexaCondensedMedium, size: maxFontSize) else {
-            return maxFontSize
-        }
+        // Fall back to a system font for measurement if the custom font is
+        // missing, so the text still shrinks instead of pinning to the max size.
+        let uiFont = UIFont(name: AppFont.gtFlexaCondensedMedium, size: maxFontSize)
+            ?? .systemFont(ofSize: maxFontSize, weight: .medium)
         let attributes: [NSAttributedString.Key: Any] = [
             .font: uiFont,
             .kern: kern(for: maxFontSize)

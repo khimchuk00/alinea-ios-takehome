@@ -89,15 +89,27 @@ enum AppFont {
 // tuned in exactly one place.
 
 enum AppGradient {
-    /// Seamless palindrome loop used by the rotating Review border (comment #2).
-    static var brandRingColors: [Color] {
-        AppColor.brandRamp + AppColor.brandRamp.dropLast().reversed()
+    /// A bright tint for the highlight that sweeps the Review border.
+    static let ringHighlight = Color(hex: 0xF2D9FF)
+
+    /// Seamless loop (first and last stop match) carrying a bright "shine" band
+    /// that travels around the Review border as it rotates (comment #2).
+    static var brandRingStops: [Gradient.Stop] {
+        [
+            .init(color: AppColor.brandBlue, location: 0.00),
+            .init(color: AppColor.brandViolet, location: 0.16),
+            .init(color: AppColor.brand, location: 0.32),
+            .init(color: ringHighlight, location: 0.45),
+            .init(color: AppColor.brand, location: 0.55),
+            .init(color: AppColor.brandViolet, location: 0.74),
+            .init(color: AppColor.brandBlue, location: 1.00)
+        ]
     }
 
     /// Rotating angular gradient for the Review button border.
     static func brandRing(rotation: Double) -> AngularGradient {
         AngularGradient(
-            gradient: Gradient(colors: brandRingColors),
+            gradient: Gradient(stops: brandRingStops),
             center: .center,
             startAngle: .degrees(rotation),
             endAngle: .degrees(rotation + 360)
@@ -120,4 +132,15 @@ enum AppGradient {
             endPoint: .trailing
         )
     }
+
+    /// Top-to-bottom shine on the large amount (subtle 3D depth).
+    static let amountText = LinearGradient(
+        stops: [
+            .init(color: .white, location: 0.0),
+            .init(color: .white, location: 0.46),
+            .init(color: Color.white.opacity(0.58), location: 1.0)
+        ],
+        startPoint: .top,
+        endPoint: .bottom
+    )
 }

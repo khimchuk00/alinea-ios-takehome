@@ -10,9 +10,11 @@ struct BackButton: View {
             Image(systemName: "chevron.left")
                 .font(.system(size: 20, weight: .semibold))
                 .foregroundStyle(.white)
-                .frame(width: Metrics.Size.backButton, height: Metrics.Size.backButton)
+                // 36pt visual glyph in a 44pt tap target (HIG minimum).
+                .frame(width: Metrics.Size.minTapTarget, height: Metrics.Size.minTapTarget)
                 .contentShape(Rectangle())
         }
         .buttonStyle(PressableStyle(scale: 0.9))
+        .accessibilityLabel("Back")
     }
 }
