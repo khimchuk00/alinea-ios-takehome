@@ -34,6 +34,14 @@ struct ReviewButton: View {
         .buttonStyle(PressableStyle(scale: 0.98))
         .accessibilityIdentifier(A11y.reviewButton)
         .onAppear(perform: startAnimating)
+        .onChange(of: reduceMotion) { _, isReduced in
+            if isReduced {
+                rotation = 0
+                glowPulse = 0
+            } else {
+                startAnimating()
+            }
+        }
         .onDisappear {
             rotation = 0
             glowPulse = 0

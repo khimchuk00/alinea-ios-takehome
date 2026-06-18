@@ -60,10 +60,12 @@ final class AmountEntryViewModelTests: XCTestCase {
         viewModel.tapDecimal()
         XCTAssertEqual(viewModel.rawInput, "0.")
         XCTAssertFalse(viewModel.canAddDecimal)
-        // "0." is effectively zero: suggestions stay, Review stays hidden.
+        // "0." is effectively zero — suggestions stay, Review stays hidden —
+        // but it is no longer a placeholder, so the typed "." is visible.
         XCTAssertTrue(viewModel.isEmpty)
         XCTAssertTrue(viewModel.showsSuggestions)
-        XCTAssertEqual(viewModel.displayAmount, "$0")
+        XCTAssertFalse(viewModel.isPlaceholder)
+        XCTAssertEqual(viewModel.displayAmount, "$0.")
     }
 
     func testZeroThenDecimalIsStillEmpty() {
@@ -203,6 +205,34 @@ final class AmountEntryViewModelTests: XCTestCase {
     func testInitialInputNormalizesLeadingZeros() {
         XCTAssertEqual(AmountEntryViewModel(initialInput: "007").rawInput, "7")
         XCTAssertEqual(AmountEntryViewModel(initialInput: "000").rawInput, "0")
+    }
+
+    func testInitialInputLeadingZerosDoNotConsumeIntegerBudget() {
+        // The significant "5" must survive even behind twelve zeros.
+        let viewModel = AmountEntryViewModel(initialInput: "0000000000005.50")
+        XCTAssertEqual(viewModel.rawInput, "5.50")
+        XCTAssertEqual(viewModel.displayAmount, "$5.50")
+    }
+
+    func testInitialInputOverCapKeepsLeadingDigitsAndFraction() {
+        let viewModel = AmountEntryViewModel(initialInput: "1234567890123.45")
+        XCTAssertEqual(viewModel.rawInput, "123456789012.45")
+    }
+
+    func testInitialInputLeadingDotGetsZero() {
+        XCTAssertEqual(AmountEntryViewModel(initialInput: ".5").rawInput, "0.5")
+        XCTAssertEqual(AmountEntryViewModel(initialInput: "abc.").rawInput, "0.")
+    }
+
+    func testSelectSuggestionIsClampedAndNonNegative() {
+        let capped = AmountEntryViewModel(maxIntegerDigits: 4)
+        capped.selectSuggestion(10_000)        // 5 digits -> clamped to 4
+        XCTAssertEqual(capped.rawInput, "1000")
+
+        let viewModel = makeViewModel()
+        viewModel.selectSuggestion(-500)        // negative -> clamped to zero
+        XCTAssertTrue(viewModel.isEmpty)
+        XCTAssertEqual(viewModel.rawInput, "0")
     }
 
     func testReset() {

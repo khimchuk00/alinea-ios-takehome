@@ -37,7 +37,9 @@ struct AmountEntryView: View {
 
             Spacer().frame(height: Metrics.Spacing.navToAmount)
 
-            AmountDisplayView(isEmpty: viewModel.isEmpty, amountText: viewModel.displayAmount)
+            AmountDisplayView(isPlaceholder: viewModel.isPlaceholder,
+                              isEmpty: viewModel.isEmpty,
+                              amountText: viewModel.displayAmount)
 
             Spacer(minLength: 0)
 

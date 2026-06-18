@@ -52,10 +52,15 @@ final class AmountEntryViewModel {
     /// decimal point already exists.
     var canAddDecimal: Bool { !rawInput.contains(AmountFormatter.decimalSeparatorChar) }
 
-    /// Formatted amount for display, e.g. `"$1,234.56"`, or the `"$0"`
-    /// placeholder while the value is effectively zero.
+    /// True only before the user has typed anything meaningful (empty or a lone
+    /// "0"): the display shows the dim "$0" placeholder with the caret between
+    /// "$" and "0". A typed decimal ("0.") is NOT a placeholder — it's shown.
+    var isPlaceholder: Bool { rawInput.isEmpty || rawInput == "0" }
+
+    /// Formatted amount for display, e.g. `"$1,234.56"` or `"$0."`. Faithful to
+    /// the entered text so a typed decimal point is always visible.
     var displayAmount: String {
-        isEmpty ? AmountFormatter.zeroPlaceholder : AmountFormatter.formatted(rawInput: rawInput)
+        AmountFormatter.formatted(rawInput: rawInput)
     }
 
     // MARK: Intents
@@ -92,7 +97,10 @@ final class AmountEntryViewModel {
     }
 
     func selectSuggestion(_ amount: Int) {
-        rawInput = String(amount)
+        // Route through the same clamp/normalisation as every other entry path.
+        rawInput = Self.sanitized(String(max(0, amount)),
+                                  maxIntegerDigits: maxIntegerDigits,
+                                  maxFractionDigits: maxFractionDigits)
     }
 
     func reset() {
@@ -105,24 +113,27 @@ final class AmountEntryViewModel {
     private static func sanitized(_ input: String,
                                   maxIntegerDigits: Int,
                                   maxFractionDigits: Int) -> String {
-        var integer = ""
-        var fraction = ""
+        var integerDigits = ""
+        var fractionDigits = ""
         var sawDot = false
         for character in input {
             if character.isNumber {
-                if sawDot {
-                    if fraction.count < maxFractionDigits { fraction.append(character) }
-                } else if integer.count < maxIntegerDigits {
-                    integer.append(character)
-                }
+                if sawDot { fractionDigits.append(character) } else { integerDigits.append(character) }
             } else if character == AmountFormatter.decimalSeparatorChar, !sawDot {
                 sawDot = true
             }
         }
-        if integer.count > 1 {  // normalise leading zeros to match the keypad invariant
-            integer = String(integer.drop(while: { $0 == "0" }))
-            if integer.isEmpty { integer = "0" }
+        // Strip leading zeros BEFORE clamping so they don't consume the integer
+        // budget (mirrors the keypad, which replaces a lone "0"); then cap the
+        // significant digits and reinstate a leading "0" where the form needs one.
+        var integer = String(integerDigits.drop(while: { $0 == "0" }))
+        if integer.count > maxIntegerDigits {
+            integer = String(integer.prefix(maxIntegerDigits))
         }
+        if integer.isEmpty, sawDot || !integerDigits.isEmpty {
+            integer = "0"
+        }
+        let fraction = String(fractionDigits.prefix(maxFractionDigits))
         return sawDot ? integer + AmountFormatter.decimalSeparator + fraction : integer
     }
 }

@@ -53,8 +53,9 @@ xcodebuild test -scheme AlineaAmountEntry \
   -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
 
-- **`AlineaAmountEntryTests`** — 20 unit tests covering every keypad rule
-  (grouping, leading zeros, decimal limits, zero-vs-empty, backspace, suggestions).
+- **`AlineaAmountEntryTests`** — 29 unit tests covering every keypad rule
+  (grouping, leading zeros, decimal limits, zero-vs-empty, backspace, suggestions,
+  input sanitization and suggestion clamping).
 - **`AlineaAmountEntryUITests`** — 7 end-to-end tests that tap the on-screen
   keypad and assert the displayed amount, proving the pad is "fully functional"
   (including the launch-prefill hook and the large-value path).
