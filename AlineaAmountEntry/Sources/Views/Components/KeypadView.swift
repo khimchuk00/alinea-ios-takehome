@@ -6,8 +6,8 @@ enum KeypadKey: Hashable {
     case backspace
 }
 
-/// The numeric keypad. Every key fires light haptics (comment #4); the decimal
-/// key disables itself when inappropriate (comment #6).
+/// The numeric keypad. Every key fires light haptics; the decimal key disables
+/// itself once a decimal point already exists.
 struct KeypadView: View {
     let canAddDecimal: Bool
     let onDigit: (Int) -> Void

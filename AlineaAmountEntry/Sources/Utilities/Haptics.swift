@@ -1,6 +1,6 @@
 import UIKit
 
-/// Light haptic feedback for keypad interactions (comment #4).
+/// Light haptic feedback for keypad interactions.
 enum Haptics {
     private static let generator = UIImpactFeedbackGenerator(style: .light)
 

@@ -2,8 +2,8 @@ import Foundation
 import Observation
 
 /// Drives the amount-entry screen: holds the raw user input and exposes the
-/// derived state the views render. All keypad rules from the Figma comments
-/// live here so they can be unit-tested in isolation.
+/// derived state the views render. All the keypad rules live here so they can
+/// be unit-tested in isolation.
 @Observable
 final class AmountEntryViewModel {
 
@@ -15,7 +15,7 @@ final class AmountEntryViewModel {
     // MARK: Configuration
 
     /// Maximum number of integer digits accepted (keeps very large values sane;
-    /// the display itself scales down to fit — comment #7).
+    /// the display itself scales down to fit).
     let maxIntegerDigits: Int
 
     /// Maximum number of fractional digits (cents).
@@ -45,11 +45,10 @@ final class AmountEntryViewModel {
         !rawInput.contains { $0.isNumber && $0 != "0" }
     }
 
-    /// Comment #1 — suggestion bubbles appear only when nothing is entered.
+    /// Suggestion bubbles appear only when nothing is entered.
     var showsSuggestions: Bool { isEmpty }
 
-    /// Comment #6 — the decimal key is "inappropriate" (disabled) once a
-    /// decimal point already exists.
+    /// The decimal key is disabled once a decimal point already exists.
     var canAddDecimal: Bool { !rawInput.contains(AmountFormatter.decimalSeparatorChar) }
 
     /// True only before the user has typed anything meaningful (empty or a lone

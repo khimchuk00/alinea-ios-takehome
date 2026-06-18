@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// The amount-entry screen — assembles all components and binds them to the
-/// view model. Laid out edge-to-edge to mirror the 393×853 Figma frame.
+/// view model. Laid out edge-to-edge to mirror the 393×853 design.
 struct AmountEntryView: View {
     @State private var viewModel: AmountEntryViewModel
 
@@ -20,8 +20,8 @@ struct AmountEntryView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .clipped()
-        // Full-bleed to match the Figma frame, which includes its own status bar
-        // and home indicator mock. (See StatusBarView for the rationale.)
+        // Full-bleed: the design includes its own status-bar and home-indicator
+        // mock. (See StatusBarView for the rationale.)
         .ignoresSafeArea()
         .persistentSystemOverlays(.hidden)
         .onAppear { Haptics.prepare() }
@@ -66,8 +66,7 @@ struct AmountEntryView: View {
     private var navigationRow: some View {
         ZStack {
             HStack {
-                // Back is intentionally non-functional per the brief
-                // ("the back button doesn't need to do anything").
+                // Intentionally non-functional — no destination wired up here.
                 BackButton()
                 Spacer()
             }
@@ -76,9 +75,8 @@ struct AmountEntryView: View {
         .frame(height: Metrics.Size.navRowHeight)
     }
 
-    /// The swap slot below the amount: suggestion chips while empty (comment #1),
-    /// the Review button once a value is entered, cross-fading between the two
-    /// (comment #3).
+    /// The swap slot below the amount: suggestion chips while empty, the Review
+    /// button once a value is entered, cross-fading between the two.
     @ViewBuilder
     private var swapSlot: some View {
         ZStack {
@@ -90,7 +88,7 @@ struct AmountEntryView: View {
                 .padding(.horizontal, Metrics.Inset.chips)
                 .transition(.scale(scale: Motion.chipsTransitionScale).combined(with: .opacity))
             } else {
-                // Review is intentionally non-functional per the brief.
+                // Intentionally non-functional — no destination wired up here.
                 ReviewButton()
                     .padding(.horizontal, Metrics.Inset.review)
                     .transition(.scale(scale: Motion.reviewTransitionScale).combined(with: .opacity))

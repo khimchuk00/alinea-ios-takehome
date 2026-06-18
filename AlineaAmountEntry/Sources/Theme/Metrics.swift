@@ -2,14 +2,14 @@ import SwiftUI
 
 // MARK: - Metrics
 //
-// Dimensional design tokens taken from the Figma frame (393×853 iPhone).
-// Keeping them here makes the 1:1 spec traceable and tunable in one place
+// Dimensional design tokens for the screen (393×853 reference, iPhone).
+// Keeping them here makes the layout traceable and tunable in one place
 // instead of scattered literals across the views.
 // (Named `Metrics` rather than `Layout` to avoid colliding with SwiftUI's
 // `Layout` protocol.)
 
 enum Metrics {
-    /// The Figma artboard size the screen was designed against.
+    /// The reference artboard size the screen is designed against.
     static let designSize = CGSize(width: 393, height: 853)
 
     /// Horizontal insets, per section (they intentionally differ in the design).
@@ -54,17 +54,17 @@ enum Metrics {
 // Shared animations and motion constants (comments #2 and #3).
 
 enum Motion {
-    /// Chips ↔ Review swap (comment #3).
+    /// Chips ↔ Review swap.
     static let swap = Animation.spring(response: 0.42, dampingFraction: 0.82)
     static let chipsTransitionScale: CGFloat = 0.85
     static let reviewTransitionScale: CGFloat = 0.92
 
-    /// Review border gradient rotation (comment #2).
+    /// Review border gradient rotation.
     static let ringSpinDuration: Double = 4.5
     /// Review glow "breathing" pulse.
     static let glowPulseDuration: Double = 2.6
 
-    /// Caret blink (comment #5).
+    /// Caret blink.
     static let caretBlinkDuration: Double = 0.55
 
     /// Generic press feedback and key enable/disable.

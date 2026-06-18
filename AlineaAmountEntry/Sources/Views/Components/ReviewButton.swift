@@ -2,10 +2,10 @@ import SwiftUI
 
 /// The white "Review" pill shown once an amount is entered. Its border is a
 /// brand gradient with a bright highlight sweeping around it, sitting on a
-/// "breathing" multicolor glow (comment #2). Both honor Reduce Motion and stop
-/// when the button leaves the screen.
+/// "breathing" multicolor glow. Both honor Reduce Motion and stop when the
+/// button leaves the screen.
 ///
-/// Intentionally non-functional per the brief; `action` defaults to a no-op.
+/// Intentionally non-functional; `action` defaults to a no-op.
 struct ReviewButton: View {
     var action: () -> Void = {}
 
@@ -58,8 +58,7 @@ struct ReviewButton: View {
         }
     }
 
-    /// Blurred multicolor halo behind the pill (an approximation of the Figma
-    /// "orb" gradient artwork), gently breathing in brightness and spread.
+    /// Blurred multicolor halo behind the pill, gently breathing in brightness.
     private var glow: some View {
         Capsule()
             .fill(AppGradient.reviewGlow)

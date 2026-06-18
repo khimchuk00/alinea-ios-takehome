@@ -2,32 +2,31 @@ import SwiftUI
 
 // MARK: - Colors
 //
-// Values taken directly from the Figma variables/styles of the
-// "Alinea Frontend Take-home" file.
+// The app's dark-theme color palette.
 
 enum AppColor {
-    /// Frame fill `bg` — #18161F
+    /// Screen background.
     static let background = Color(hex: 0x18161F)
 
-    /// main/white
+    /// Primary white.
     static let white = Color.white
 
-    /// main/brand — #B24DCC
+    /// Brand magenta.
     static let brand = Color(hex: 0xB24DCC)
-    /// strategies/st01 — #8955F9
+    /// Brand violet.
     static let brandViolet = Color(hex: 0x8955F9)
-    /// strategies/st03 — #2073DF
+    /// Brand blue.
     static let brandBlue = Color(hex: 0x2073DF)
-    /// main/accent — #FFEE59
+    /// Accent yellow.
     static let accent = Color(hex: 0xFFEE59)
 
     /// Canonical brand color ramp — the single source for every brand gradient.
     static let brandRamp: [Color] = [brand, brandViolet, brandBlue]
 
-    /// Suggestion chip fill — rgba(35,33,44,0.75)
+    /// Suggestion chip fill.
     static let chipBackground = Color(hex: 0x23212C).opacity(0.75)
 
-    /// Review button label — #22212D
+    /// Review button label.
     static let reviewText = Color(hex: 0x22212D)
 
     /// Dimmed "$0" placeholder for the empty state.
@@ -93,7 +92,7 @@ enum AppGradient {
     static let ringHighlight = Color(hex: 0xF2D9FF)
 
     /// Seamless loop (first and last stop match) carrying a bright "shine" band
-    /// that travels around the Review border as it rotates (comment #2).
+    /// that travels around the Review border as it rotates.
     static var brandRingStops: [Gradient.Stop] {
         [
             .init(color: AppColor.brandBlue, location: 0.00),

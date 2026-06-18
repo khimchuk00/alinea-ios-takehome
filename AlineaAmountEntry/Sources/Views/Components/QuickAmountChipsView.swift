@@ -1,7 +1,6 @@
 import SwiftUI
 
-/// The row of quick-amount suggestion chips. Shown only while nothing is
-/// entered (comment #1).
+/// The row of quick-amount suggestion chips. Shown only while nothing is entered.
 struct QuickAmountChipsView: View {
     let amounts: [Int]
     let onSelect: (Int) -> Void

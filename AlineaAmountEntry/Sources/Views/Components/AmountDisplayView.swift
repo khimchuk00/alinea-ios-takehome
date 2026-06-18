@@ -5,7 +5,7 @@ import UIKit
 ///
 /// - Empty state: a dimmed "$0" placeholder with the caret between "$" and "0".
 /// - Entered state: the white formatted amount with the caret at the end.
-/// - The font shrinks so large values still fit on screen (comment #7).
+/// - The font shrinks so large values still fit on screen.
 struct AmountDisplayView: View {
     /// Dim "$0" placeholder with the caret between "$" and "0" (nothing typed
     /// yet). Anything typed — including a lone decimal — renders as a bright,

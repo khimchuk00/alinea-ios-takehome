@@ -53,7 +53,7 @@ final class AmountEntryViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.isEmpty)
     }
 
-    // MARK: Decimal behaviour (comment #6)
+    // MARK: Decimal behaviour
 
     func testDecimalOnEmptyAddsLeadingZeroButStaysEmpty() {
         let viewModel = makeViewModel()
@@ -148,7 +148,7 @@ final class AmountEntryViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.canAddDecimal)
     }
 
-    // MARK: Suggestions (comment #1)
+    // MARK: Suggestions
 
     func testSelectSuggestionShowsReview() {
         let viewModel = makeViewModel()

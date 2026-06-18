@@ -1,7 +1,7 @@
 import XCTest
 
 /// End-to-end checks that the number pad is fully functional and drives the
-/// displayed amount (the core requirement of the assignment).
+/// displayed amount.
 final class AmountEntryUITests: XCTestCase {
     private var app: XCUIApplication!
 
@@ -65,7 +65,7 @@ final class AmountEntryUITests: XCTestCase {
     }
 
     /// The largest legal value still renders as a single grouped label
-    /// (exercises the auto-shrink path — comment #7).
+    /// (exercises the auto-shrink path).
     func testLargeValueStaysGrouped() {
         launch()
         for _ in 0..<12 { app.buttons[A11y.digitKey(9)].tap() }

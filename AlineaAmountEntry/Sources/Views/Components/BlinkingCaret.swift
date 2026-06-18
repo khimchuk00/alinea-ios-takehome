@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// A blinking text caret (comment #5). Its opacity is derived from wall-clock
+/// A blinking text caret. Its opacity is derived from wall-clock
 /// time via `TimelineView`, so the blink phase is stable even when the view is
 /// recreated (font-size changes, empty↔entered swap) instead of jumping back to
 /// full opacity. Under Reduce Motion it renders as a steady bar with no ticking

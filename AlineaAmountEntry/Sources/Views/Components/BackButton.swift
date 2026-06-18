@@ -1,7 +1,6 @@
 import SwiftUI
 
-/// The top-left back chevron. Non-functional by design (per the assignment),
-/// but rendered for visual parity.
+/// The top-left back chevron. Intentionally non-functional, rendered for parity.
 struct BackButton: View {
     var action: () -> Void = {}
 

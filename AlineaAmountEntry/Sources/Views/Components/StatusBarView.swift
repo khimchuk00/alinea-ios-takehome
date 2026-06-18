@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// A static iOS-style status bar (time + signal/Wi-Fi/battery) reproducing the
-/// "9:41" mock that is part of the Figma frame.
+/// "9:41" mock that is part of the design.
 ///
 /// The design frame includes its own status bar and home indicator, so the
 /// screen is rendered full-bleed (`.ignoresSafeArea()`) and this view recreates
