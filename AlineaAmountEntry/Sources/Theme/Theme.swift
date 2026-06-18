@@ -98,10 +98,13 @@ enum AppGradient {
         [
             .init(color: AppColor.brandBlue, location: 0.00),
             .init(color: AppColor.brandViolet, location: 0.16),
-            .init(color: AppColor.brand, location: 0.32),
-            .init(color: ringHighlight, location: 0.45),
-            .init(color: AppColor.brand, location: 0.55),
-            .init(color: AppColor.brandViolet, location: 0.74),
+            .init(color: AppColor.brand, location: 0.30),
+            // A wider, lingering highlight so the sheen glides instead of
+            // snapping across the rounded corners.
+            .init(color: ringHighlight, location: 0.44),
+            .init(color: ringHighlight, location: 0.50),
+            .init(color: AppColor.brand, location: 0.64),
+            .init(color: AppColor.brandViolet, location: 0.80),
             .init(color: AppColor.brandBlue, location: 1.00)
         ]
     }

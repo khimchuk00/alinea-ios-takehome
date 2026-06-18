@@ -60,9 +60,9 @@ enum Motion {
     static let reviewTransitionScale: CGFloat = 0.92
 
     /// Review border gradient rotation (comment #2).
-    static let ringSpinDuration: Double = 2.2
+    static let ringSpinDuration: Double = 4.5
     /// Review glow "breathing" pulse.
-    static let glowPulseDuration: Double = 1.4
+    static let glowPulseDuration: Double = 2.6
 
     /// Caret blink (comment #5).
     static let caretBlinkDuration: Double = 0.55

@@ -57,8 +57,8 @@ struct ReviewButton: View {
             .fill(AppGradient.reviewGlow)
             .frame(height: Metrics.Size.reviewHeight + 10)
             .blur(radius: 20)
-            .opacity(0.7 + 0.3 * glowPulse)
-            .scaleEffect(x: 1, y: 1 + 0.10 * glowPulse, anchor: .center)
+            .opacity(0.78 + 0.15 * glowPulse)
+            .scaleEffect(x: 1, y: 1 + 0.04 * glowPulse, anchor: .center)
             .padding(.horizontal, 8)
     }
 }
