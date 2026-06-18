@@ -54,9 +54,10 @@ struct KeypadView: View {
             .accessibilityLabel("Decimal point")
         case .backspace:
             KeypadButton(action: onBackspace) {
-                Image(systemName: "delete.left.fill")
-                    .font(.system(size: 26, weight: .regular))
-                    .foregroundStyle(.white.opacity(0.4))
+                Image("icon.backspace")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 42, height: 38)
             }
             .accessibilityIdentifier(A11y.keyDelete)
             .accessibilityLabel("Delete")
