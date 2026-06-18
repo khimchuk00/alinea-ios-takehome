@@ -136,6 +136,17 @@ enum AppGradient {
         )
     }
 
+    /// Top-lit hairline border on the suggestion chips (glassy raised look).
+    static let chipBorder = LinearGradient(
+        stops: [
+            .init(color: Color.white.opacity(0.30), location: 0.0),
+            .init(color: Color.white.opacity(0.07), location: 0.5),
+            .init(color: Color.white.opacity(0.0), location: 1.0)
+        ],
+        startPoint: .top,
+        endPoint: .bottom
+    )
+
     /// Top-to-bottom shine on the large amount (subtle 3D depth).
     static let amountText = LinearGradient(
         stops: [

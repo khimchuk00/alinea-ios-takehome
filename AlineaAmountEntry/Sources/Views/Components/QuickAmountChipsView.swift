@@ -20,6 +20,7 @@ struct QuickAmountChipsView: View {
                         .frame(maxWidth: .infinity)
                         .frame(height: Metrics.Size.chipHeight)
                         .background(AppColor.chipBackground, in: Capsule())
+                        .overlay(Capsule().strokeBorder(AppGradient.chipBorder, lineWidth: 1))
                 }
                 .buttonStyle(PressableStyle(scale: 0.96))
                 .accessibilityIdentifier(A11y.chip(amount))
