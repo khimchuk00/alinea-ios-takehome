@@ -68,7 +68,7 @@ final class AmountEntryViewModel {
         let digitString = String(digit)
 
         // Replace a lone leading zero so "0" + "5" -> "5", and keep "0" for "0".
-        if rawInput.isEmpty || rawInput == "0" {
+        if isPlaceholder {
             rawInput = (digit == 0) ? "0" : digitString
             return
         }
@@ -100,10 +100,6 @@ final class AmountEntryViewModel {
         rawInput = Self.sanitized(String(max(0, amount)),
                                   maxIntegerDigits: maxIntegerDigits,
                                   maxFractionDigits: maxFractionDigits)
-    }
-
-    func reset() {
-        rawInput = ""
     }
 
     /// Coerces an externally-provided string into the `rawInput` invariant

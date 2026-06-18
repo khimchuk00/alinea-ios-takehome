@@ -7,7 +7,7 @@ import SwiftUI
 /// timeline.
 struct BlinkingCaret: View {
     var height: CGFloat
-    var width: CGFloat = 3
+    var width: CGFloat
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 

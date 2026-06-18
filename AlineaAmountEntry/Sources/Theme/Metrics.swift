@@ -9,9 +9,6 @@ import SwiftUI
 // `Layout` protocol.)
 
 enum Metrics {
-    /// The reference artboard size the screen is designed against.
-    static let designSize = CGSize(width: 393, height: 853)
-
     /// Horizontal insets, per section (they intentionally differ in the design).
     enum Inset {
         static let statusBar: CGFloat = 32
@@ -36,7 +33,6 @@ enum Metrics {
         static let minTapTarget: CGFloat = 44
         static let statusBarHeight: CGFloat = 47
         static let navRowHeight: CGFloat = 36
-        static let backButton: CGFloat = 36
         static let swapHeight: CGFloat = 50
         static let chipHeight: CGFloat = 44
         static let chipSpacing: CGFloat = 12
@@ -51,7 +47,7 @@ enum Metrics {
 
 // MARK: - Motion
 //
-// Shared animations and motion constants (comments #2 and #3).
+// Shared animations and motion constants.
 
 enum Motion {
     /// Chips ↔ Review swap.

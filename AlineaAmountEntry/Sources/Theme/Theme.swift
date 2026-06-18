@@ -8,9 +8,6 @@ enum AppColor {
     /// Screen background.
     static let background = Color(hex: 0x18161F)
 
-    /// Primary white.
-    static let white = Color.white
-
     /// Brand magenta.
     static let brand = Color(hex: 0xB24DCC)
     /// Brand violet.
@@ -34,13 +31,13 @@ enum AppColor {
 }
 
 extension Color {
-    init(hex: UInt, alpha: Double = 1) {
+    init(hex: UInt) {
         self.init(
             .sRGB,
             red: Double((hex >> 16) & 0xFF) / 255,
             green: Double((hex >> 8) & 0xFF) / 255,
             blue: Double(hex & 0xFF) / 255,
-            opacity: alpha
+            opacity: 1
         )
     }
 }
@@ -72,7 +69,7 @@ enum AppFont {
     }
 
     /// AUTOMATED badge — Instrument Sans SemiCondensed Medium, small.
-    static func badge(_ size: CGFloat = 11) -> Font {
+    static func badge(_ size: CGFloat) -> Font {
         .custom(instrumentSansSemiCondensedMedium, size: size)
     }
 

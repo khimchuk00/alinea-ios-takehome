@@ -11,7 +11,7 @@ struct QuickAmountChipsView: View {
                 Button {
                     onSelect(amount)
                 } label: {
-                    Text(label(for: amount))
+                    Text(AmountFormatter.formatted(rawInput: String(amount)))
                         .font(AppFont.chip())
                         .tracking(-0.17)
                         .foregroundStyle(.white)
@@ -25,9 +25,5 @@ struct QuickAmountChipsView: View {
                 .accessibilityIdentifier(A11y.chip(amount))
             }
         }
-    }
-
-    private func label(for amount: Int) -> String {
-        AmountFormatter.formatted(rawInput: String(amount))
     }
 }

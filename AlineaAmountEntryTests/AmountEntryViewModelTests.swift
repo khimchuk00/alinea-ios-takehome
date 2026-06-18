@@ -235,14 +235,6 @@ final class AmountEntryViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.rawInput, "0")
     }
 
-    func testReset() {
-        let viewModel = makeViewModel()
-        [1, 2, 3].forEach(viewModel.tapDigit)
-        viewModel.reset()
-        XCTAssertTrue(viewModel.isEmpty)
-        XCTAssertEqual(viewModel.rawInput, "")
-    }
-
     // MARK: Formatter
 
     func testFormatterDirectly() {
