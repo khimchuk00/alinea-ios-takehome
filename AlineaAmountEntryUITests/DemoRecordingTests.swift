@@ -6,6 +6,7 @@ import XCTest
 /// because it is paced with `Thread.sleep` for the recording rather than being a
 /// fast assertion-based test. Run it explicitly to record:
 ///   xcodebuild test -only-testing:AlineaAmountEntryUITests/DemoRecordingTests
+@MainActor
 final class DemoRecordingTests: XCTestCase {
     func testFullKeypadDemo() {
         let app = XCUIApplication()

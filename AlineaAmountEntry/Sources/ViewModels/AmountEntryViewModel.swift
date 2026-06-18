@@ -4,6 +4,7 @@ import Observation
 /// Drives the amount-entry screen: holds the raw user input and exposes the
 /// derived state the views render. All the keypad rules live here so they can
 /// be unit-tested in isolation.
+@MainActor
 @Observable
 final class AmountEntryViewModel {
 

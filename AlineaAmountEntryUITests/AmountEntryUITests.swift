@@ -2,18 +2,20 @@ import XCTest
 
 /// End-to-end checks that the number pad is fully functional and drives the
 /// displayed amount.
+@MainActor
 final class AmountEntryUITests: XCTestCase {
     private var app: XCUIApplication!
 
     override func setUp() {
         continueAfterFailure = false
-        app = XCUIApplication()
     }
 
     @discardableResult
     private func launch(prefill: String? = nil) -> XCUIApplication {
+        let app = XCUIApplication()
         if let prefill { app.launchEnvironment["AMOUNT_PREFILL"] = prefill }
         app.launch()
+        self.app = app
         return app
     }
 

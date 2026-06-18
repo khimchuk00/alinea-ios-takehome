@@ -1,5 +1,7 @@
 # Alinea — Amount Entry Screen
 
+[![CI](https://github.com/khimchuk00/alinea-ios-takehome/actions/workflows/ci.yml/badge.svg)](https://github.com/khimchuk00/alinea-ios-takehome/actions/workflows/ci.yml)
+
 A pixel-faithful SwiftUI implementation of the "amount entry" screen from the
 Alinea frontend take-home Figma file. The number pad is fully functional and
 drives a live, formatted amount; the screen reproduces the two sample states
@@ -18,7 +20,7 @@ keypad results; the keypad behavior itself is covered by the UI tests.
 
 ## Requirements
 
-- **Xcode 16+** (built and tested with Xcode 26, Swift 5)
+- **Xcode 16+** — built in **Swift 6 language mode** (complete strict concurrency)
 - **iOS 17+** deployment target (uses the `@Observable` macro)
 - XcodeGen (`brew install xcodegen`) — only needed if you want to regenerate the
   project from `project.yml`

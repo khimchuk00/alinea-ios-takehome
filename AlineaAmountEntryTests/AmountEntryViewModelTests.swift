@@ -1,6 +1,7 @@
 import XCTest
 @testable import AlineaAmountEntry
 
+@MainActor
 final class AmountEntryViewModelTests: XCTestCase {
 
     private func makeViewModel() -> AmountEntryViewModel { AmountEntryViewModel() }

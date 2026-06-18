@@ -12,6 +12,7 @@ struct AlineaAmountEntryApp: App {
     /// In DEBUG builds the `AMOUNT_PREFILL` environment variable seeds the
     /// entered amount, so previews, screenshots and UI tests can launch straight
     /// into a given state. The hook is compiled out of release builds.
+    @MainActor
     private static func makeViewModel() -> AmountEntryViewModel {
         #if DEBUG
         let prefill = ProcessInfo.processInfo.environment["AMOUNT_PREFILL"] ?? ""
