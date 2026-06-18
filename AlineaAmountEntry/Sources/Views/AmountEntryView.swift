@@ -25,6 +25,9 @@ struct AmountEntryView: View {
         .ignoresSafeArea()
         .persistentSystemOverlays(.hidden)
         .onAppear { Haptics.prepare() }
+        #if DEBUG
+        .task { await runDemoAutoplay() }
+        #endif
     }
 
     private var content: some View {
@@ -96,6 +99,37 @@ struct AmountEntryView: View {
         }
         .animation(Motion.swap, value: viewModel.showsSuggestions)
     }
+
+    #if DEBUG
+    /// `DEMO_AUTOPLAY=1` scripts a walkthrough (empty → suggestion chip → clear →
+    /// type a decimal amount) so a smooth demo clip can be recorded without any
+    /// UI-test interaction. No effect otherwise; compiled out of release builds.
+    @MainActor
+    private func runDemoAutoplay() async {
+        guard ProcessInfo.processInfo.environment["DEMO_AUTOPLAY"] == "1" else { return }
+        func pause(_ seconds: Double) async { try? await Task.sleep(for: .seconds(seconds)) }
+
+        await pause(1.4)                    // empty screen
+        viewModel.selectSuggestion(2_000)  // tap a suggestion chip
+        await pause(1.6)
+        while !viewModel.isPlaceholder {    // backspace until cleared
+            viewModel.tapBackspace()
+            await pause(0.3)
+        }
+        await pause(0.9)
+        for digit in [1, 2, 3, 4] {         // type "1,234"
+            viewModel.tapDigit(digit)
+            await pause(0.4)
+        }
+        viewModel.tapDecimal()              // "."
+        await pause(0.4)
+        for digit in [5, 6] {               // -> "1,234.56"
+            viewModel.tapDigit(digit)
+            await pause(0.4)
+        }
+        await pause(1.8)
+    }
+    #endif
 }
 
 #Preview {
