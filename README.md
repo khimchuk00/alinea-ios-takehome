@@ -1,7 +1,5 @@
 # Alinea — Amount Entry Screen
 
-[![CI](https://github.com/khimchuk00/alinea-ios-takehome/actions/workflows/ci.yml/badge.svg)](https://github.com/khimchuk00/alinea-ios-takehome/actions/workflows/ci.yml)
-
 A pixel-faithful SwiftUI implementation of the "amount entry" screen from the
 Alinea frontend take-home Figma file. The number pad is fully functional and
 drives a live, formatted amount; the screen reproduces the two sample states
