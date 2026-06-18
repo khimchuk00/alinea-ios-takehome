@@ -63,13 +63,13 @@
 		28992372CB6B4F7A9B906DF7 /* ReviewButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewButton.swift; sourceTree = "<group>"; };
 		354FAC6064C156DA4F1BD67A /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		3D1641394103B1533F2F37AC /* AlineaAmountEntryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlineaAmountEntryApp.swift; sourceTree = "<group>"; };
-		402A49CCAFE3DADD9E734250 /* AlineaAmountEntryTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AlineaAmountEntryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		402A49CCAFE3DADD9E734250 /* AlineaAmountEntryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlineaAmountEntryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4040EA5D94D45EAE408E959D /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		40852647918F2BFA223B5E46 /* KeypadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadView.swift; sourceTree = "<group>"; };
 		41FA9C200A49852184BC3117 /* TopGlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopGlow.swift; sourceTree = "<group>"; };
 		5F720B1DAF8255CE3E78A690 /* AmountEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountEntryViewModel.swift; sourceTree = "<group>"; };
 		710C75D1E9F26804A034230C /* InstrumentSansSemiCondensed-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InstrumentSansSemiCondensed-Medium.otf"; sourceTree = "<group>"; };
-		77B5AE549E3C8917AE7A3E93 /* AlineaAmountEntry.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AlineaAmountEntry.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		77B5AE549E3C8917AE7A3E93 /* AlineaAmountEntry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlineaAmountEntry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		868EBBE26456F7FB54093AF1 /* GTFlexa-CnMd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GTFlexa-CnMd.otf"; sourceTree = "<group>"; };
 		88ACFE5BD01BE03C51EDAAD8 /* AmountFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountFormatter.swift; sourceTree = "<group>"; };
 		8D9FE21AC61FA98A9ECB0FD3 /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
@@ -77,7 +77,7 @@
 		C2A30817AD5185B46B6D0536 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		C8AF24473DFCB25560A24BC3 /* BlinkingCaret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingCaret.swift; sourceTree = "<group>"; };
 		CC5F4DDE7163573DAC1E8B38 /* AmountEntryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountEntryViewModelTests.swift; sourceTree = "<group>"; };
-		D4000B8E74EB4CA1B82936C3 /* AlineaAmountEntryUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AlineaAmountEntryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4000B8E74EB4CA1B82936C3 /* AlineaAmountEntryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlineaAmountEntryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F534B04A4CDEAB07236E36 /* HomeIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeIndicatorView.swift; sourceTree = "<group>"; };
 		E77CB914BDFCF36747FBE4F8 /* PressableStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PressableStyle.swift; sourceTree = "<group>"; };
 		F3B0CF8EE4BF5D1099303F01 /* AmountDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountDisplayView.swift; sourceTree = "<group>"; };
@@ -288,14 +288,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 2650;
 				TargetAttributes = {
 					38311CEEAA9E56519BCB4450 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					6F24AEAE1C67E2A276B5CA83 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					D815BE2A5CBD511C16C68488 = {
@@ -406,6 +405,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8L4NS6FSJ8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = AlineaAmountEntry/App/Info.plist;
@@ -479,6 +479,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -500,6 +501,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -566,6 +568,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8L4NS6FSJ8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = AlineaAmountEntry/App/Info.plist;
@@ -621,6 +624,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -635,6 +639,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;

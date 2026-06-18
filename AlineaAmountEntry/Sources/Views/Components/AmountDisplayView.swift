@@ -7,10 +7,10 @@ import UIKit
 /// - Entered state: the white formatted amount with the caret at the end.
 /// - The font shrinks so large values still fit on screen (comment #7).
 struct AmountDisplayView: View {
-    /// Show the dim "$0" placeholder with the caret between "$" and "0".
+    /// Dim "$0" placeholder with the caret between "$" and "0" (nothing typed
+    /// yet). Anything typed — including a lone decimal — renders as a bright,
+    /// "active" amount.
     let isPlaceholder: Bool
-    /// Zero-valued (e.g. "0.") — rendered dim but with the typed text visible.
-    let isEmpty: Bool
     let amountText: String
 
     private let maxFontSize: CGFloat = 100
@@ -56,10 +56,8 @@ struct AmountDisplayView: View {
                     .tracking(kern(for: size))
                     .lineLimit(1)
                     .minimumScaleFactor(minFontSize / maxFontSize)
-                    .foregroundStyle(isEmpty
-                        ? AnyShapeStyle(AppColor.amountPlaceholder)
-                        : AnyShapeStyle(AppGradient.amountText))
-                    .shadow(color: .black.opacity(isEmpty ? 0 : 0.45), radius: 1, x: 0, y: 4)
+                    .foregroundStyle(AppGradient.amountText)
+                    .shadow(color: .black.opacity(0.45), radius: 1, x: 0, y: 4)
                 caret(for: size)
             }
         }
