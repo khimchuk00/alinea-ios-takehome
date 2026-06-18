@@ -11,10 +11,12 @@ drives a live, formatted amount; the screen reproduces the two sample states
 |:---:|:---:|:---:|:---:|
 | ![Empty](screenshots/01-empty.png) | ![Entered](screenshots/02-entered.png) | ![Large](screenshots/03-large-scaling.png) | ![Decimal](screenshots/04-decimal.png) |
 
-🎬 **Demo clip:** [`screenshots/demo.mp4`](screenshots/demo.mp4) — the entered state with the
-animated Review border (a brand gradient with a bright highlight sweeping around
-it), the breathing glow and the blinking caret. The four stills above show the
-keypad results; the keypad behavior itself is covered by the UI tests.
+🎬 **Demo clip:** [`screenshots/demo.mp4`](screenshots/demo.mp4) — an interactive
+walkthrough: the empty screen, tapping a suggestion chip (chips animate out, the
+Review button animates in), backspacing back to empty, then typing a grouped
+decimal amount. Along the way it shows the animated Review border (a brand
+gradient with a bright highlight sweeping around it), the breathing glow and the
+blinking caret. The four stills above show the keypad results.
 
 ---
 
@@ -55,15 +57,12 @@ xcodebuild test -scheme AlineaAmountEntry \
   -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
 
-- **`AlineaAmountEntryTests`** — 29 unit tests covering every keypad rule
+- **`AlineaAmountEntryTests`** — 28 unit tests covering every keypad rule
   (grouping, leading zeros, decimal limits, zero-vs-empty, backspace, suggestions,
   input sanitization and suggestion clamping).
 - **`AlineaAmountEntryUITests`** — 7 end-to-end tests that tap the on-screen
   keypad and assert the displayed amount, proving the pad is "fully functional"
   (including the launch-prefill hook and the large-value path).
-- `DemoRecordingTests` is the scripted walkthrough used to record the demo video.
-  It's excluded from the default suite (it's paced with sleeps); run it with
-  `-only-testing:AlineaAmountEntryUITests/DemoRecordingTests`.
 
 ## How the design comments were addressed
 
@@ -124,7 +123,13 @@ AlineaAmountEntryUITests/        # UI tests + demo recording
 
 ### Testing/preview hook
 
-In **DEBUG** builds only, launching with the `AMOUNT_PREFILL` environment variable
-seeds the entered amount (e.g. `AMOUNT_PREFILL=2000`). It is used by the UI tests
-and by `scripts/snapshot.sh` to capture the README screenshots, and is compiled
-out of release builds.
+In **DEBUG** builds only, two environment-variable hooks make the screen
+scriptable, and both are compiled out of release builds:
+
+- `AMOUNT_PREFILL` seeds the entered amount on launch (e.g. `AMOUNT_PREFILL=2000`).
+  It is used by the UI tests and by `scripts/snapshot.sh` to capture the README
+  screenshots.
+- `DEMO_AUTOPLAY=1` plays the scripted walkthrough used to record `demo.mp4`
+  (empty → suggestion chip → clear → type a decimal amount). It drives the view
+  model on a timer so the clip can be recorded directly with `simctl` —
+  unlike a UI test, it doesn't interrupt the screen recording.

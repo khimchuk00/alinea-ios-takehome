@@ -67,9 +67,5 @@ schemes:
     test:
       targets:
         - AlineaAmountEntryTests
-        - name: AlineaAmountEntryUITests
-          skippedTests:
-            # Demo recording is paced with sleeps; run it explicitly via
-            # -only-testing rather than in the default suite.
-            - DemoRecordingTests
+        - AlineaAmountEntryUITests
       gatherCoverageData: true

@@ -89,11 +89,6 @@
                BlueprintName = "AlineaAmountEntryUITests"
                ReferencedContainer = "container:AlineaAmountEntry.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "DemoRecordingTests">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
       <CommandLineArguments>

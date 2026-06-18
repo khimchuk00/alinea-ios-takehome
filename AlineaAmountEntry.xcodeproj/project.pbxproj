@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		01D85A8D4141DC799A8EE3AF /* AmountEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57C46C28FD5692871F58AF0 /* AmountEntryView.swift */; };
-		021445348B50DC7F8832DB9A /* DemoRecordingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2677EB975ED4576568D8F80D /* DemoRecordingTests.swift */; };
 		1D10A59732BAE8E091C77B98 /* AlineaAmountEntryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1641394103B1533F2F37AC /* AlineaAmountEntryApp.swift */; };
 		2198B83057E5ADC72805F026 /* AmountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88ACFE5BD01BE03C51EDAAD8 /* AmountFormatter.swift */; };
 		22A1E5D49F5DE018958CD3F9 /* PressableStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CB914BDFCF36747FBE4F8 /* PressableStyle.swift */; };
@@ -59,7 +58,6 @@
 		184F94171EF8C363687FF887 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A35F583DD3B9EA28F25A954 /* AutomatedBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedBadge.swift; sourceTree = "<group>"; };
 		1E681D6AA5AB1E8C073C5CED /* A11y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A11y.swift; sourceTree = "<group>"; };
-		2677EB975ED4576568D8F80D /* DemoRecordingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoRecordingTests.swift; sourceTree = "<group>"; };
 		28992372CB6B4F7A9B906DF7 /* ReviewButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewButton.swift; sourceTree = "<group>"; };
 		354FAC6064C156DA4F1BD67A /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		3D1641394103B1533F2F37AC /* AlineaAmountEntryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlineaAmountEntryApp.swift; sourceTree = "<group>"; };
@@ -89,7 +87,6 @@
 			isa = PBXGroup;
 			children = (
 				01A769CA43B5629D7B157504 /* AmountEntryUITests.swift */,
-				2677EB975ED4576568D8F80D /* DemoRecordingTests.swift */,
 			);
 			path = AlineaAmountEntryUITests;
 			sourceTree = "<group>";
@@ -380,7 +377,6 @@
 			files = (
 				93E360772E79A84CE72193AA /* A11y.swift in Sources */,
 				7108C5C55EDA99F3280D6385 /* AmountEntryUITests.swift in Sources */,
-				021445348B50DC7F8832DB9A /* DemoRecordingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
