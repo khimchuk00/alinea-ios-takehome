@@ -52,6 +52,25 @@ final class AmountEntryViewModel {
     /// The decimal key is disabled once a decimal point already exists.
     var canAddDecimal: Bool { !rawInput.contains(AmountFormatter.decimalSeparatorChar) }
 
+    /// False once the active field is full — the two fractional digits are in, or
+    /// the integer part has hit its digit cap — so the digit keys grey out to
+    /// show no further digits will register.
+    var canAddDigit: Bool {
+        guard let dotIndex = rawInput.firstIndex(of: AmountFormatter.decimalSeparatorChar) else {
+            // A lone placeholder "0" (or empty) gets replaced by the next digit
+            // rather than appended, so it doesn't occupy the integer budget —
+            // this mirrors tapDigit's placeholder branch.
+            let integerCount = isPlaceholder ? 0 : rawInput.count
+            return integerCount < maxIntegerDigits
+        }
+        let fractionCount = rawInput.distance(from: rawInput.index(after: dotIndex),
+                                              to: rawInput.endIndex)
+        return fractionCount < maxFractionDigits
+    }
+
+    /// There's something to delete — drives the delete key's enabled state.
+    var canDelete: Bool { !rawInput.isEmpty }
+
     /// True only before the user has typed anything meaningful (empty or a lone
     /// "0"): the display shows the dim "$0" placeholder with the caret between
     /// "$" and "0". A typed decimal ("0.") is NOT a placeholder — it's shown.
@@ -91,9 +110,13 @@ final class AmountEntryViewModel {
         rawInput = rawInput.isEmpty ? "0" + separator : rawInput + separator
     }
 
-    func tapBackspace() {
-        guard !rawInput.isEmpty else { return }
+    /// Deletes the last character. Returns whether anything was removed, so the
+    /// hold-to-repeat delete key knows when to stop on its own.
+    @discardableResult
+    func tapBackspace() -> Bool {
+        guard !rawInput.isEmpty else { return false }
         rawInput.removeLast()
+        return true
     }
 
     func selectSuggestion(_ amount: Int) {

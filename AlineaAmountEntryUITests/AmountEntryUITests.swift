@@ -19,11 +19,24 @@ final class AmountEntryUITests: XCTestCase {
         return app
     }
 
-    private func currentAmount() -> String {
-        let element = app.staticTexts[A11y.amountDisplay].exists
+    private func amountElement() -> XCUIElement {
+        app.staticTexts[A11y.amountDisplay].exists
             ? app.staticTexts[A11y.amountDisplay]
             : app.otherElements[A11y.amountDisplay]
+    }
+
+    private func currentAmount() -> String {
+        let element = amountElement()
         return (element.value as? String) ?? element.label
+    }
+
+    /// Polls until the amount settles on `expected` — used for the async
+    /// hold-to-repeat delete, whose timing depends on the run loop.
+    @discardableResult
+    private func waitForAmount(_ expected: String, timeout: TimeInterval = 3) -> Bool {
+        let predicate = NSPredicate(format: "value == %@", expected)
+        let expectation = XCTNSPredicateExpectation(predicate: predicate, object: amountElement())
+        return XCTWaiter().wait(for: [expectation], timeout: timeout) == .completed
     }
 
     func testStartsInEmptyState() {
@@ -56,6 +69,28 @@ final class AmountEntryUITests: XCTestCase {
         app.buttons[A11y.digitKey(5)].tap()
         XCTAssertEqual(currentAmount(), "$5.25")
         XCTAssertFalse(app.buttons[A11y.keyDecimal].isEnabled)
+    }
+
+    /// Once two decimal places are entered no further digit will register, so the
+    /// digit keys grey out (are disabled) too.
+    func testDigitKeysGreyOutWhenFractionIsFull() {
+        launch()
+        [5].forEach { app.buttons[A11y.digitKey($0)].tap() }
+        app.buttons[A11y.keyDecimal].tap()
+        [2, 5].forEach { app.buttons[A11y.digitKey($0)].tap() }
+        XCTAssertEqual(currentAmount(), "$5.25")
+        XCTAssertFalse(app.buttons[A11y.digitKey(7)].isEnabled)
+        XCTAssertFalse(app.buttons[A11y.digitKey(0)].isEnabled)
+        XCTAssertFalse(app.buttons[A11y.keyDecimal].isEnabled)
+        XCTAssertTrue(app.buttons[A11y.keyDelete].isEnabled)
+    }
+
+    /// Press-and-hold on delete should clear several digits, not just one.
+    func testHoldingDeleteClearsMultipleDigits() {
+        launch(prefill: "12345")
+        XCTAssertEqual(currentAmount(), "$12,345")
+        app.buttons[A11y.keyDelete].press(forDuration: 1.3)
+        XCTAssertTrue(waitForAmount("$0"), "Holding delete should clear the field")
     }
 
     func testSuggestionChipFillsAmountAndShowsReview() {

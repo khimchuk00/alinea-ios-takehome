@@ -13,6 +13,8 @@ struct AmountDisplayView: View {
     let isPlaceholder: Bool
     let amountText: String
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     private let maxFontSize: CGFloat = 100
     private let minFontSize: CGFloat = 30
     private let horizontalPadding: CGFloat = 24
@@ -58,6 +60,10 @@ struct AmountDisplayView: View {
                     .minimumScaleFactor(minFontSize / maxFontSize)
                     .foregroundStyle(AppGradient.amountText)
                     .shadow(color: .black.opacity(0.45), radius: 1, x: 0, y: 4)
+                    // Roll the digits as the value changes while typing (honors
+                    // Reduce Motion, like the rest of the screen's animation).
+                    .contentTransition(.numericText())
+                    .animation(reduceMotion ? nil : Motion.amountChange, value: amountText)
                 caret(for: size)
             }
         }

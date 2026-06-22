@@ -190,6 +190,55 @@ final class AmountEntryViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.displayAmount, "$1,234.56")
     }
 
+    // MARK: Keypad enablement (grey-out rules)
+
+    func testCanAddDigitInitiallyTrue() {
+        let viewModel = makeViewModel()
+        XCTAssertTrue(viewModel.canAddDigit)
+    }
+
+    func testCanAddDigitFalseAfterTwoFractionDigits() {
+        let viewModel = makeViewModel()
+        viewModel.tapDigit(5)
+        viewModel.tapDecimal()
+        XCTAssertTrue(viewModel.canAddDigit)    // "5." — room for two
+        viewModel.tapDigit(2)
+        XCTAssertTrue(viewModel.canAddDigit)    // "5.2" — room for one
+        viewModel.tapDigit(5)
+        XCTAssertFalse(viewModel.canAddDigit)   // "5.25" — full
+        XCTAssertFalse(viewModel.canAddDecimal)
+    }
+
+    func testCanAddDigitFalseWhenIntegerDigitsFull() {
+        let viewModel = AmountEntryViewModel(maxIntegerDigits: 3)
+        [1, 2].forEach(viewModel.tapDigit)
+        XCTAssertTrue(viewModel.canAddDigit)    // "12"
+        viewModel.tapDigit(3)
+        XCTAssertFalse(viewModel.canAddDigit)   // "123" — full
+    }
+
+    /// The placeholder "0" gets replaced rather than appended, so it must not
+    /// count against the integer budget (else the keys would grey out while
+    /// tapDigit would still accept input).
+    func testPlaceholderZeroDoesNotConsumeIntegerBudget() {
+        let viewModel = AmountEntryViewModel(maxIntegerDigits: 1)
+        XCTAssertTrue(viewModel.canAddDigit)    // empty
+        viewModel.tapDigit(0)                   // "0" placeholder
+        XCTAssertTrue(viewModel.canAddDigit)    // still replaceable
+        viewModel.tapDigit(5)
+        XCTAssertEqual(viewModel.rawInput, "5")
+        XCTAssertFalse(viewModel.canAddDigit)   // single integer digit — full
+    }
+
+    func testCanDeleteReflectsContent() {
+        let viewModel = makeViewModel()
+        XCTAssertFalse(viewModel.canDelete)     // nothing entered yet
+        viewModel.tapDigit(7)
+        XCTAssertTrue(viewModel.canDelete)
+        viewModel.tapBackspace()
+        XCTAssertFalse(viewModel.canDelete)
+    }
+
     // MARK: External input is sanitized to the rawInput invariant
 
     func testInitialInputDropsInvalidCharactersAndExtraDot() {

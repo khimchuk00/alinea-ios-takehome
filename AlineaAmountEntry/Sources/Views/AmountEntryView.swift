@@ -52,6 +52,8 @@ struct AmountEntryView: View {
 
             KeypadView(
                 canAddDecimal: viewModel.canAddDecimal,
+                canAddDigit: viewModel.canAddDigit,
+                canDelete: viewModel.canDelete,
                 onDigit: { viewModel.tapDigit($0) },
                 onDecimal: { viewModel.tapDecimal() },
                 onBackspace: { viewModel.tapBackspace() }
