@@ -20,6 +20,17 @@ struct AmountDisplayView: View {
     private let horizontalPadding: CGFloat = 24
     private let caretHeightRatio: CGFloat = 1.06
     private let caretWidthRatio: CGFloat = 0.03
+    /// Outline thickness of the amount's "border", as a fraction of the font size.
+    private let borderWidthRatio: CGFloat = 0.012
+
+    /// Eight directions used to draw the keyline by offsetting copies of the
+    /// glyphs behind the gradient fill.
+    private static let borderDirections: [CGSize] = [
+        CGSize(width: -1, height: 0), CGSize(width: 1, height: 0),
+        CGSize(width: 0, height: -1), CGSize(width: 0, height: 1),
+        CGSize(width: -1, height: -1), CGSize(width: 1, height: -1),
+        CGSize(width: -1, height: 1), CGSize(width: 1, height: 1)
+    ]
 
     /// Typographic tracking factor for GT Flexa at `maxFontSize`, scaled with the
     /// font size. Defined once so the rendered text and the width measurement can
@@ -53,20 +64,37 @@ struct AmountDisplayView: View {
         } else {
             let size = fittingSize(for: amountText, maxWidth: availableWidth)
             HStack(spacing: 0) {
-                Text(amountText)
-                    .font(AppFont.amount(size))
-                    .tracking(kern(for: size))
-                    .lineLimit(1)
-                    .minimumScaleFactor(minFontSize / maxFontSize)
-                    .foregroundStyle(AppGradient.amountText)
-                    .shadow(color: .black.opacity(0.45), radius: 1, x: 0, y: 4)
-                    // Roll the digits as the value changes while typing (honors
-                    // Reduce Motion, like the rest of the screen's animation).
-                    .contentTransition(.numericText())
-                    .animation(reduceMotion ? nil : Motion.amountChange, value: amountText)
+                enteredAmount(size: size)
                 caret(for: size)
             }
         }
+    }
+
+    /// The entered amount: a gradient-filled number sitting on a bright keyline
+    /// (the design's "border"), with a soft drop shadow underneath.
+    private func enteredAmount(size: CGFloat) -> some View {
+        let glyphs = Text(amountText)
+            .font(AppFont.amount(size))
+            .tracking(kern(for: size))
+            .lineLimit(1)
+            .minimumScaleFactor(minFontSize / maxFontSize)
+            // Roll the digits as the value changes while typing.
+            .contentTransition(.numericText())
+
+        let border = size * borderWidthRatio
+        return ZStack {
+            ForEach(Self.borderDirections.indices, id: \.self) { i in
+                let direction = Self.borderDirections[i]
+                glyphs
+                    .foregroundStyle(AppColor.amountBorder)
+                    .offset(x: direction.width * border, y: direction.height * border)
+            }
+            glyphs
+                .foregroundStyle(AppGradient.amountText)
+        }
+        .shadow(color: .black.opacity(0.45), radius: 1, x: 0, y: 4)
+        // Honors Reduce Motion, like the rest of the screen's animation.
+        .animation(reduceMotion ? nil : Motion.amountChange, value: amountText)
     }
 
     private func caret(for size: CGFloat) -> some View {

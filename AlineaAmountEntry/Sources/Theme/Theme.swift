@@ -28,6 +28,10 @@ enum AppColor {
 
     /// Dimmed "$0" placeholder for the empty state.
     static let amountPlaceholder = Color.white.opacity(0.2)
+
+    /// Bright keyline drawn around the entered amount — the "border effect" the
+    /// design puts on the big number.
+    static let amountBorder = Color.white.opacity(0.9)
 }
 
 extension Color {
@@ -143,12 +147,14 @@ enum AppGradient {
         endPoint: .bottom
     )
 
-    /// Top-to-bottom shine on the large amount (subtle 3D depth).
+    /// Top-to-bottom shine on the large amount (subtle 3D depth). Range matches
+    /// the design's fill (full white down to ~0.8) so the keyline border reads as
+    /// a gentle highlight rather than a hard outline.
     static let amountText = LinearGradient(
         stops: [
             .init(color: .white, location: 0.0),
-            .init(color: .white, location: 0.46),
-            .init(color: Color.white.opacity(0.58), location: 1.0)
+            .init(color: .white, location: 0.5),
+            .init(color: Color.white.opacity(0.72), location: 1.0)
         ],
         startPoint: .top,
         endPoint: .bottom
