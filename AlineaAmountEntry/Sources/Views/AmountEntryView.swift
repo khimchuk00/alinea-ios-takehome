@@ -114,9 +114,8 @@ struct AmountEntryView: View {
         await pause(1.4)                    // empty screen
         viewModel.selectSuggestion(2_000)  // tap a suggestion chip
         await pause(1.6)
-        while !viewModel.isPlaceholder {    // backspace until cleared
-            viewModel.tapBackspace()
-            await pause(0.3)
+        while viewModel.tapBackspace() {    // rapid clear — mimics holding delete
+            await pause(0.1)
         }
         await pause(0.9)
         for digit in [1, 2, 3, 4] {         // type "1,234"

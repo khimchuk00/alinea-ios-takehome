@@ -11,10 +11,11 @@ drives a live, formatted amount; the screen reproduces the two sample states
 
 🎬 **Demo clip:** [`screenshots/demo.mp4`](screenshots/demo.mp4) — an interactive
 walkthrough: the empty screen, tapping a suggestion chip (chips animate out, the
-Review button animates in), backspacing back to empty, then typing a grouped
-decimal amount. Along the way it shows the animated Review border (a brand
-gradient with a bright highlight sweeping around it), the breathing glow and the
-blinking caret. The four stills above show the keypad results.
+Review button animates in), clearing the field, then typing a grouped decimal
+amount with the digits rolling into place. Along the way it shows the animated
+Review border (a brand gradient with a bright highlight sweeping around it), the
+breathing glow, the blinking caret, and the keypad greying out once the value is
+full. The four stills above show the keypad results.
 
 ---
 
@@ -55,12 +56,13 @@ xcodebuild test -scheme AlineaAmountEntry \
   -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
 
-- **`AlineaAmountEntryTests`** — 28 unit tests covering every keypad rule
+- **`AlineaAmountEntryTests`** — 33 unit tests covering every keypad rule
   (grouping, leading zeros, decimal limits, zero-vs-empty, backspace, suggestions,
-  input sanitization and suggestion clamping).
-- **`AlineaAmountEntryUITests`** — 7 end-to-end tests that tap the on-screen
+  the key grey-out rules, input sanitization and suggestion clamping).
+- **`AlineaAmountEntryUITests`** — 9 end-to-end tests that tap the on-screen
   keypad and assert the displayed amount, proving the pad is "fully functional"
-  (including the launch-prefill hook and the large-value path).
+  (including the grey-out behaviour, the held-delete bulk clear, the launch-prefill
+  hook and the large-value path).
 
 ## How the design comments were addressed
 
@@ -78,6 +80,17 @@ The Figma file asked to "pay attention to the comments". Each one is implemented
 
 The back button and Review button are intentionally non-functional, as the brief
 specified.
+
+## Review feedback addressed
+
+A second round of review asked for four refinements, all implemented:
+
+| Ask | Implementation |
+|-----|----------------|
+| Animate numbers as they're entered | The amount rolls with `.contentTransition(.numericText())` as the value changes (honours Reduce Motion). |
+| Grey out keypad keys once two decimals are entered | Digit keys disable when no further digit will register — the two fractional digits are in, *or* the integer cap is hit; delete stays active. |
+| Continuous delete while holding the delete key | A `HoldRepeatKey` deletes on touch-down then auto-repeats with an accelerating interval, stopping on its own at empty; VoiceOver gets a "Clear all" action. |
+| Replicate the border effect on the text | The amount sits on a bright keyline (a thin outline behind the gradient fill), pulled from the Figma text layer. |
 
 ## Architecture
 
