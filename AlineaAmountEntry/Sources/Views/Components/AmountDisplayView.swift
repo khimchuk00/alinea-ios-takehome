@@ -72,29 +72,38 @@ struct AmountDisplayView: View {
 
     /// The entered amount: a gradient-filled number sitting on a bright keyline
     /// (the design's "border"), with a soft drop shadow underneath.
+    ///
+    /// Kept deliberately cheap so typing stays smooth even for long, auto-shrinking
+    /// values (this used to jank badly on device):
+    /// - The 8 keyline copies are **static** — only the single gradient fill rolls
+    ///   its digits, so a keystroke morphs one glyph run, not nine.
+    /// - The drop shadow is on the fill **alone**, never the whole stack, so no
+    ///   per-frame offscreen blur over nine composited layers.
+    /// - The roll is skipped once the value overflows and starts shrinking, which
+    ///   is both the ugliest and by far the costliest case (a glyph morph fighting
+    ///   a continuous font-size resize).
     private func enteredAmount(size: CGFloat) -> some View {
-        let glyphs = Text(amountText)
+        let base = Text(amountText)
             .font(AppFont.amount(size))
             .tracking(kern(for: size))
             .lineLimit(1)
             .minimumScaleFactor(minFontSize / maxFontSize)
-            // Roll the digits as the value changes while typing.
-            .contentTransition(.numericText())
 
         let border = size * borderWidthRatio
+        let rolls = !reduceMotion && size >= maxFontSize
         return ZStack {
             ForEach(Self.borderDirections.indices, id: \.self) { i in
                 let direction = Self.borderDirections[i]
-                glyphs
+                base
                     .foregroundStyle(AppColor.amountBorder)
                     .offset(x: direction.width * border, y: direction.height * border)
             }
-            glyphs
+            base
                 .foregroundStyle(AppGradient.amountText)
+                .contentTransition(.numericText())
+                .shadow(color: .black.opacity(0.45), radius: 1, x: 0, y: 4)
         }
-        .shadow(color: .black.opacity(0.45), radius: 1, x: 0, y: 4)
-        // Honors Reduce Motion, like the rest of the screen's animation.
-        .animation(reduceMotion ? nil : Motion.amountChange, value: amountText)
+        .animation(rolls ? Motion.amountChange : nil, value: amountText)
     }
 
     private func caret(for size: CGFloat) -> some View {
